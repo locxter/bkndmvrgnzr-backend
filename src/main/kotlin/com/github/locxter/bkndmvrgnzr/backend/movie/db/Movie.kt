@@ -37,41 +37,6 @@ data class Movie(
     @OnDelete(action = OnDeleteAction.CASCADE)
     val users: List<User> = ArrayList(),
 ) {
-    /*
-    constructor(movieCreateDto: MovieCreateDto) : this(
-        Isan(movieCreateDto.isan),
-        movieCreateDto.title,
-        movieCreateDto.description,
-        movieCreateDto.year,
-        movieCreateDto.playTime,
-        movieCreateDto.ageRestriction,
-        genres = movieCreateDto.genres.map { Genre(it) }
-    )
-
-    constructor(movieResponseDto: MovieResponseDto) : this(
-        Isan(movieResponseDto.isan),
-        movieResponseDto.title,
-        movieResponseDto.description,
-        movieResponseDto.year,
-        movieResponseDto.playTime,
-        movieResponseDto.ageRestriction,
-        genres = movieResponseDto.genres.map { Genre(it) },
-        movieContributors = movieResponseDto.movieContributors.map { MovieContributor(it) }
-    )
-
-    fun updateWithDto(movieUpdateDto: MovieUpdateDto): Movie = Movie(
-        isan,
-        movieUpdateDto.title,
-        movieUpdateDto.description,
-        movieUpdateDto.year,
-        movieUpdateDto.playTime,
-        movieUpdateDto.ageRestriction,
-        users,
-        movieUpdateDto.genres.map { Genre(it) },
-        movieUpdateDto.movieContributors.map { MovieContributor(it) }
-    )
-     */
-
     fun toDto(): MovieResponseDto = MovieResponseDto(
         isan.value,
         title,

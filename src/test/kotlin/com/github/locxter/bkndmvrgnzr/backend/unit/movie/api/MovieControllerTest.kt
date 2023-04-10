@@ -15,7 +15,6 @@ import org.springframework.security.core.Authentication
 import org.springframework.web.server.ResponseStatusException
 
 class MovieControllerTest {
-
     @Test
     fun `Get all movies of user`() {
         // setup
@@ -80,7 +79,5 @@ class MovieControllerTest {
 
         val userRepo = mockk<UserRepository>()
         val movieRepo = mockk<MovieRepository>()
-
-
     }
 }

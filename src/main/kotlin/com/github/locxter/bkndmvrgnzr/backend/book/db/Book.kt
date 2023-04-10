@@ -41,7 +41,6 @@ data class Book(
     @OnDelete(action = OnDeleteAction.CASCADE)
     val users: List<User> = ArrayList(),
 ) {
-
     fun toDto(): BookResponseDto = BookResponseDto(
         isbn.value,
         title,

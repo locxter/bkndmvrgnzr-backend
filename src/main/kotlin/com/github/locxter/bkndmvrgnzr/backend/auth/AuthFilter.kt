@@ -14,7 +14,6 @@ class AuthFilter(
     private val jwtUtils: JwtUtils,
     private val userDetailsService: UserDetailsServiceImpl
 ) : OncePerRequestFilter() {
-
     private val logger = LoggerFactory.getLogger(AuthFilter::class.java)
 
     @Throws(Exception::class)

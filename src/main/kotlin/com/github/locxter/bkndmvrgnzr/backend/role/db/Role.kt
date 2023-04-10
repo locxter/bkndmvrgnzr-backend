@@ -23,5 +23,3 @@ data class Role(
         type.name
     )
 }
-
-

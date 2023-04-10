@@ -12,7 +12,6 @@ class UserDetailsImpl(
     private val password: String,
     private val authorities: Collection<GrantedAuthority>
 ) : UserDetails {
-
     constructor(user: User) : this(
         user.username,
         user.password.value,

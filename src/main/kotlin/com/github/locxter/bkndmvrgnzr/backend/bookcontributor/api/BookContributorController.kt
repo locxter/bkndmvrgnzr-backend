@@ -9,6 +9,7 @@ import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRoleRepository
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.Contributor
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorId
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorRepository
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -24,7 +25,7 @@ class BookContributorController(
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllBookContributors(): List<BookContributorResponseDto> {
-        val bookContributors = bookContributorRepository.findAll()
+        val bookContributors = bookContributorRepository.findAll(Sort.by(Sort.Direction.ASC, "contributor"))
         return bookContributors.map { it.toDto() }
     }
 
@@ -105,7 +106,8 @@ class BookContributorController(
     fun getAllBookContributorsOfContributor(@PathVariable(name = "contributor-id") contributorId: String): List<BookContributorResponseDto> {
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
-        val bookContributors = bookContributorRepository.findByContributorId(contributor.id)
+        val bookContributors =
+            bookContributorRepository.findByContributorId(contributor.id, Sort.by(Sort.Direction.ASC, "bookRole"))
         return bookContributors.map { it.toDto() }
     }
 
@@ -114,7 +116,8 @@ class BookContributorController(
     fun getAllBookContributorsOfBookRole(@PathVariable(name = "book-role-id") bookRoleId: String): List<BookContributorResponseDto> {
         val bookRole = bookRoleRepository.findById(BookRoleId(bookRoleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book role not found")
-        val bookContributors = bookContributorRepository.findByBookRoleId(bookRole.id)
+        val bookContributors =
+            bookContributorRepository.findByBookRoleId(bookRole.id, Sort.by(Sort.Direction.ASC, "contributor"))
         return bookContributors.map { it.toDto() }
     }
 }

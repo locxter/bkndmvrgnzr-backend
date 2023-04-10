@@ -179,7 +179,7 @@ class MovieController(
     fun getAllMoviesOfSearchQuery(@PathVariable(name = "query") query: String): List<MovieResponseDto> {
         val movies = movieRepository.findAll()
         val iterator = movies.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val movie = iterator.next()
             var containsQuery = false
             if (movie.title.contains(query, true) || movie.description.contains(query, true) ||
@@ -236,6 +236,7 @@ class MovieController(
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie not found")
         val userMovies = user.movies.toMutableList()
         userMovies.add(movie)
+        userMovies.sortBy { it.isan.value }
         val updatedUser = user.copy(movies = userMovies)
         userRepository.save(updatedUser)
         return userMovies.map { it.toDto() }
@@ -276,7 +277,7 @@ class MovieController(
         )
         val movies = movieRepository.findByUsersId(user.id).toMutableList()
         val iterator = movies.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val movie = iterator.next()
             if (!movie.genres.contains(genre)) {
                 iterator.remove()
@@ -300,7 +301,7 @@ class MovieController(
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie contributor not found")
         val movies = movieRepository.findByUsersId(user.id).toMutableList()
         val iterator = movies.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val movie = iterator.next()
             if (!movie.movieContributors.contains(movieContributor)) {
                 iterator.remove()
@@ -324,7 +325,7 @@ class MovieController(
         val movieContributors = movieContributorRepository.findByContributorId(contributor.id)
         val movies = movieRepository.findByUsersId(user.id).toMutableList()
         val iterator = movies.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val movie = iterator.next()
             var containsMovieContributor = false
             for (movieContributor in movieContributors) {
@@ -352,7 +353,7 @@ class MovieController(
         )
         val movies = movieRepository.findByUsersId(user.id).toMutableList()
         val iterator = movies.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val movie = iterator.next()
             var containsQuery = false
             if (movie.title.contains(query, true) || movie.description.contains(query, true) ||

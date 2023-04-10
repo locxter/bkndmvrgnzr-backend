@@ -13,7 +13,6 @@ import java.io.IOException
 
 @Component
 class AuthEntryPointImpl : AuthenticationEntryPoint {
-
     private val logger = LoggerFactory.getLogger(AuthEntryPointImpl::class.java)
 
     @Throws(IOException::class, ServletException::class)

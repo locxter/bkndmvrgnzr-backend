@@ -2,9 +2,9 @@ package com.github.locxter.bkndmvrgnzr.backend.integration.auth
 
 import com.github.locxter.bkndmvrgnzr.backend.Main
 import com.github.locxter.bkndmvrgnzr.backend.auth.api.AuthLoginDto
+import com.github.locxter.bkndmvrgnzr.backend.lib.DataLoader
 import com.github.locxter.bkndmvrgnzr.backend.user.api.UserCreateDto
 import com.github.locxter.bkndmvrgnzr.backend.user.api.UserResponseDto
-import com.github.locxter.bkndmvrgnzr.backend.lib.DataLoader
 import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
@@ -28,7 +28,6 @@ class AuthControllerTest(
     @Autowired private val restTemplate: TestRestTemplate,
     @Autowired private val dataLoader: DataLoader
 ) {
-
     private val username = "test"
     private val password = "password"
 
@@ -96,7 +95,5 @@ class AuthControllerTest(
         assertEquals(result!!.statusCode, HttpStatus.OK)
         assert(result.headers.contains("set-cookie"))
         assert(result.headers["set-cookie"]!![0].toString() == "bkndmvrgnzr=; Path=/")
-
     }
-
 }

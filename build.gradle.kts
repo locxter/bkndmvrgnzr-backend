@@ -10,8 +10,8 @@ plugins {
 
 group = "com.github.locxter"
 version = "1.0"
-name = "bkndmvrgnzr-backend"
-description = "This is the backend of my simple and open source book and movie organizer project bkndmvrgnzr (inofficially also BAMO), which I started building during my work placement at CEWE."
+description =
+    "This is the backend of my simple and open source book and movie organizer project bkndmvrgnzr (inofficially also BAMO), which I started building during my work placement at CEWE."
 java.sourceCompatibility = JavaVersion.VERSION_17
 
 repositories {

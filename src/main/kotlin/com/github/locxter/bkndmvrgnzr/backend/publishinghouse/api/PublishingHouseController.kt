@@ -3,6 +3,7 @@ package com.github.locxter.bkndmvrgnzr.backend.publishinghouse.api
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouse
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouseId
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouseRepository
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -14,7 +15,7 @@ class PublishingHouseController(private val publishingHouseRepository: Publishin
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllPublishingHouses(): List<PublishingHouseResponseDto> {
-        val publishingHouses = publishingHouseRepository.findAll()
+        val publishingHouses = publishingHouseRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
         return publishingHouses.map { it.toDto() }
     }
 

@@ -18,13 +18,9 @@ import java.util.*
 class JwtUtils {
     private val jwtSecret: String =
         "EjRe2sffUh5F9EMqTlfK2ops6zpuOPam7Y1gawJ3EGvOK9TozoJcpXuoken+FysaDebyQv9oR8ZJ0mZBxlYWsA=="
-
     private val jwtExpirationSeconds: Long = 28800
-
     private val jwtCookie: String = "bkndmvrgnzr"
-
     private val jwtKey: Key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
-
     private val logger = LoggerFactory.getLogger(JwtUtils::class.java)
 
     fun createJwtCookie(userDetails: UserDetailsImpl): ResponseCookie {

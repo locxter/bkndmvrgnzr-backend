@@ -210,7 +210,7 @@ class BookController(
     fun getAllBooksOfSearchQuery(@PathVariable(name = "query") query: String): List<BookResponseDto> {
         val books = bookRepository.findAll()
         val iterator = books.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val book = iterator.next()
             var containsQuery = false
             if (book.title.contains(query, true) || book.subtitle.contains(query, true) ||
@@ -269,6 +269,7 @@ class BookController(
         )
         val userBooks = user.books.toMutableList()
         userBooks.add(book)
+        userBooks.sortBy { it.isbn.value }
         val updatedUser = user.copy(books = userBooks)
         userRepository.save(updatedUser)
         return userBooks.map { it.toDto() }
@@ -311,7 +312,7 @@ class BookController(
         )
         val books = bookRepository.findByUsersId(user.id).toMutableList()
         val iterator = books.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val book = iterator.next()
             if (!book.genres.contains(genre)) {
                 iterator.remove()
@@ -337,7 +338,7 @@ class BookController(
             )
         val books = bookRepository.findByUsersId(user.id).toMutableList()
         val iterator = books.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val book = iterator.next()
             if (book.publishingHouse != publishingHouse) {
                 iterator.remove()
@@ -360,7 +361,7 @@ class BookController(
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book contributor not found")
         val books = bookRepository.findByUsersId(user.id).toMutableList()
         val iterator = books.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val book = iterator.next()
             if (!book.bookContributors.contains(bookContributor)) {
                 iterator.remove()
@@ -384,7 +385,7 @@ class BookController(
         val bookContributors = bookContributorRepository.findByContributorId(contributor.id)
         val books = bookRepository.findByUsersId(user.id).toMutableList()
         val iterator = books.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             val book = iterator.next()
             var containsBookContributor = false
             for (bookContributor in bookContributors) {
@@ -412,7 +413,7 @@ class BookController(
         )
         val books = bookRepository.findByUsersId(user.id).toMutableList()
         val iterator = books.iterator()
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             var containsQuery = false
             val book = iterator.next()
             if (book.title.contains(query, true) || book.subtitle.contains(query, true) ||

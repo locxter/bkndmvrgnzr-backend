@@ -10,16 +10,12 @@ data class Isan(
 ) : Serializable {
     @Transient
     val root: String
-
     @Transient
     val episode: String
-
     @Transient
     val firstChecksum: String
-
     @Transient
     val version: String
-
     @Transient
     val secondChecksum: String
 

@@ -3,6 +3,7 @@ package com.github.locxter.bkndmvrgnzr.backend.bookrole.api
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRole
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRoleId
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRoleRepository
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -15,7 +16,7 @@ class BookRoleController(private val bookRoleRepository: BookRoleRepository) {
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllBookRoles(): List<BookRoleResponseDto> {
-        val bookRoles = bookRoleRepository.findAll()
+        val bookRoles = bookRoleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
         return bookRoles.map { it.toDto() }
     }
 

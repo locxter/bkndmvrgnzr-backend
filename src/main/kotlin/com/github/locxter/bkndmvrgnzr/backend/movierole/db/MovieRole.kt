@@ -24,5 +24,4 @@ data class MovieRole(
         id.value,
         name
     )
-
 }

@@ -1,6 +1,7 @@
 package com.github.locxter.bkndmvrgnzr.backend.role.db
 
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserId
+import org.springframework.data.domain.Sort
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
@@ -8,4 +9,5 @@ import org.springframework.stereotype.Repository
 interface RoleRepository : JpaRepository<Role, RoleId> {
     fun findByType(type: ERole): Role?
     fun findByUsersId(userId: UserId): List<Role>
+    fun findByUsersId(userId: UserId, sort: Sort): List<Role>
 }

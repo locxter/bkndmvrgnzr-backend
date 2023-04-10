@@ -9,6 +9,7 @@ import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContribut
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRole
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleId
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleRepository
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -24,7 +25,7 @@ class MovieContributorController(
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllMovieContributors(): List<MovieContributorResponseDto> {
-        val movieContributors = movieContributorRepository.findAll()
+        val movieContributors = movieContributorRepository.findAll(Sort.by(Sort.Direction.ASC, "contributor"))
         return movieContributors.map { it.toDto() }
     }
 
@@ -108,7 +109,8 @@ class MovieContributorController(
     fun getAllMovieContributorsOfContributor(@PathVariable(name = "contributor-id") contributorId: String): List<MovieContributorResponseDto> {
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
-        val movieContributors = movieContributorRepository.findByContributorId(contributor.id)
+        val movieContributors =
+            movieContributorRepository.findByContributorId(contributor.id, Sort.by(Sort.Direction.ASC, "movieRole"))
         return movieContributors.map { it.toDto() }
     }
 
@@ -117,7 +119,8 @@ class MovieContributorController(
     fun getAllMovieContributorsOfMovieRole(@PathVariable(name = "movie-role-id") movieRoleId: String): List<MovieContributorResponseDto> {
         val movieRole = movieRoleRepository.findById(MovieRoleId(movieRoleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie role not found")
-        val movieContributors = movieContributorRepository.findByMovieRoleId(movieRole.id)
+        val movieContributors =
+            movieContributorRepository.findByMovieRoleId(movieRole.id, Sort.by(Sort.Direction.ASC, "contributor"))
         return movieContributors.map { it.toDto() }
     }
 }

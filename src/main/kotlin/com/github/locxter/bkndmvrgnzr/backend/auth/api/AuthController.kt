@@ -1,7 +1,7 @@
 package com.github.locxter.bkndmvrgnzr.backend.auth.api
 
-import com.github.locxter.bkndmvrgnzr.backend.lib.JwtUtils
 import com.github.locxter.bkndmvrgnzr.backend.auth.UserDetailsImpl
+import com.github.locxter.bkndmvrgnzr.backend.lib.JwtUtils
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserRepository
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus

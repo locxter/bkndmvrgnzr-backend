@@ -9,7 +9,6 @@ import java.io.Serializable
 class Password(plainValue: String = "") : Serializable {
     @Transient
     private val passwordEncoder = BCryptPasswordEncoder()
-
     val value: String
 
     init {

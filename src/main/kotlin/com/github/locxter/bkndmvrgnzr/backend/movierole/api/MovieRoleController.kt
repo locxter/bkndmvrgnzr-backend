@@ -3,6 +3,7 @@ package com.github.locxter.bkndmvrgnzr.backend.movierole.api
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRole
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleId
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleRepository
+import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -14,7 +15,7 @@ class MovieRoleController(private val movieRoleRepository: MovieRoleRepository) 
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllMovieRoles(): List<MovieRoleResponseDto> {
-        val movieRoles = movieRoleRepository.findAll()
+        val movieRoles = movieRoleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
         return movieRoles.map { it.toDto() }
     }
 

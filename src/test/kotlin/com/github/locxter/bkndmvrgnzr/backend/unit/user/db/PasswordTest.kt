@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Test
 
 class PasswordTest {
-
     @Test
     fun `Check password hashing on creation`() {
         // setup
@@ -26,5 +25,4 @@ class PasswordTest {
         // test / assertion
         assertThat(password.matches(plaintext)).isTrue
     }
-
 }
