@@ -63,9 +63,11 @@ class RoleController(private val roleRepository: RoleRepository, private val use
         val role = roleRepository.findById(RoleId(roleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested role not found")
         val userRoles = user.roles.toMutableList()
-        userRoles.add(role)
-        val updatedUser = user.copy(roles = userRoles)
-        userRepository.save(updatedUser)
+        if (!userRoles.contains(role)) {
+            userRoles.add(role)
+            val updatedUser = user.copy(roles = userRoles)
+            userRepository.save(updatedUser)
+        }
         return userRoles.map { it.toDto() }
     }
 
@@ -81,9 +83,11 @@ class RoleController(private val roleRepository: RoleRepository, private val use
         val role = roleRepository.findById(RoleId(roleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested role not found")
         val userRoles = user.roles.toMutableList()
-        userRoles.remove(role)
-        val updatedUser = user.copy(roles = userRoles)
-        userRepository.save(updatedUser)
+        if (userRoles.contains(role)) {
+            userRoles.remove(role)
+            val updatedUser = user.copy(roles = userRoles)
+            userRepository.save(updatedUser)
+        }
         return userRoles.map { it.toDto() }
     }
 }
