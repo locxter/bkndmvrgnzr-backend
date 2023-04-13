@@ -63,14 +63,13 @@ class RoleController(private val roleRepository: RoleRepository, private val use
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
         val role = roleRepository.findById(RoleId(roleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested role not found")
-        val userRoles = user.roles.sortedBy { it.type.name }.toMutableList()
+        val userRoles = user.roles.toMutableList()
         if (!userRoles.contains(role)) {
             userRoles.add(role)
-            userRoles.sortBy { it.type.name }
             val updatedUser = user.copy(roles = userRoles)
             userRepository.save(updatedUser)
         }
-        return userRoles.map { it.toDto() }
+        return userRoles.sortedBy { it.type.name }.map { it.toDto() }
     }
 
     @DeleteMapping("/user/{user-id}/role/{role-id}")
@@ -84,12 +83,12 @@ class RoleController(private val roleRepository: RoleRepository, private val use
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
         val role = roleRepository.findById(RoleId(roleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested role not found")
-        val userRoles = user.roles.sortedBy { it.type.name }.toMutableList()
+        val userRoles = user.roles.toMutableList()
         if (userRoles.contains(role)) {
             userRoles.remove(role)
             val updatedUser = user.copy(roles = userRoles)
             userRepository.save(updatedUser)
         }
-        return userRoles.map { it.toDto() }
+        return userRoles.sortedBy { it.type.name }.map { it.toDto() }
     }
 }

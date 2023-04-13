@@ -21,7 +21,7 @@ data class PublishingHouse(
         name,
         country,
         city,
-        books.map { it.toBriefDto() }
+        books.sortedBy { it.isbn.value }.map { it.toBriefDto() }
     )
 
     fun toBriefDto(): PublishingHouseResponseBriefDto = PublishingHouseResponseBriefDto(

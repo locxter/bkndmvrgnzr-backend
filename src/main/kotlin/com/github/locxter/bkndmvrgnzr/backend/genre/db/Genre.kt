@@ -20,8 +20,8 @@ data class Genre(
     fun toDto(): GenreResponseDto = GenreResponseDto(
         id.value,
         name,
-        books.map { it.toBriefDto() },
-        movies.map { it.toBriefDto() }
+        books.sortedBy { it.isbn.value }.map { it.toBriefDto() },
+        movies.sortedBy { it.isan.value }.map { it.toBriefDto() }
     )
 
     fun toBriefDto(): GenreResponseBriefDto = GenreResponseBriefDto(

@@ -44,9 +44,9 @@ data class User(
         username,
         firstName,
         lastName,
-        roles.map { it.toDto() },
-        books.map { it.toBriefDto() },
-        movies.map { it.toBriefDto() }
+        roles.sortedBy { it.type.name }.map { it.toDto() },
+        books.sortedBy { it.isbn.value }.map { it.toBriefDto() },
+        movies.sortedBy { it.isan.value }.map { it.toBriefDto() }
     )
 
     fun toBriefDto(): UserResponseDto = UserResponseDto(

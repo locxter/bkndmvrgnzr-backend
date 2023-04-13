@@ -17,7 +17,7 @@ data class MovieRole(
     fun toDto(): MovieRoleResponseDto = MovieRoleResponseDto(
         id.value,
         name,
-        movieContributors.map { it.toBriefDto() }
+        movieContributors.sortedBy { it.contributor.id.value }.map { it.toBriefDto() }
     )
 
     fun toBriefDto(): MovieRoleResponseBriefDto = MovieRoleResponseBriefDto(

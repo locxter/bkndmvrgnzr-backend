@@ -25,7 +25,7 @@ data class BookContributor(
         id.value,
         contributor.toBriefDto(),
         bookRole.toBriefDto(),
-        books.map { it.toBriefDto() }
+        books.sortedBy { it.isbn.value }.map { it.toBriefDto() }
     )
 
     fun toBriefDto(): BookContributorResponseBriefDto = BookContributorResponseBriefDto(

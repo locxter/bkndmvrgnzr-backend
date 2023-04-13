@@ -49,8 +49,8 @@ data class Book(
         year,
         pages,
         publishingHouse.toBriefDto(),
-        genres.map { it.toBriefDto() },
-        bookContributors.map { it.toBriefDto() }
+        genres.sortedBy { it.name }.map { it.toBriefDto() },
+        bookContributors.sortedBy { it.contributor.id.value }.map { it.toBriefDto() }
     )
 
     fun toBriefDto(): BookResponseBriefDto = BookResponseBriefDto(
