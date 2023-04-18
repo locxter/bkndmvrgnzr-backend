@@ -20,7 +20,7 @@ class AuthController(
     private val jwtUtils: JwtUtils
 ) {
     @PostMapping
-    fun login(@RequestBody authLoginDto: AuthLoginDto): ResponseEntity<*> {
+    fun login(@RequestBody authLoginDto: AuthLoginDto): String {
         if (authLoginDto.username.length < 4 || authLoginDto.username.length > 32 ||
             !userRepository.existsByUsername(authLoginDto.username) || authLoginDto.password.length < 8 ||
             authLoginDto.password.length > 64
@@ -35,13 +35,6 @@ class AuthController(
         )
         SecurityContextHolder.getContext().authentication = authentication
         val userDetails = authentication?.principal as UserDetailsImpl
-        val jwtCookie = jwtUtils.createJwtCookie(userDetails)
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()).body(jwtCookie.toString())
-    }
-
-    @DeleteMapping
-    fun logout(): ResponseEntity<*> {
-        val cookie = jwtUtils.createCleanCookie()
-        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).body(cookie.toString())
+        return jwtUtils.createJwtFromUsername(userDetails.username)
     }
 }

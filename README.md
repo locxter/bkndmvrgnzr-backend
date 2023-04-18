@@ -43,8 +43,7 @@ This project uses Swagger to programmatically generate an up-to-date API documen
 
 ### Auth
 
-- [x] Log in: POST /api/auth
-- [x] Log out: DELETE /api/auth
+- [x] Login: POST /api/auth
 
 ### Book
 

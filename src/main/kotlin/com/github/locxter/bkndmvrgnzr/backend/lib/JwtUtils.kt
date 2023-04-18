@@ -19,46 +19,24 @@ class JwtUtils {
     private val jwtSecret: String =
         "EjRe2sffUh5F9EMqTlfK2ops6zpuOPam7Y1gawJ3EGvOK9TozoJcpXuoken+FysaDebyQv9oR8ZJ0mZBxlYWsA=="
     private val jwtExpirationSeconds: Long = 28800
-    private val jwtCookie: String = "bkndmvrgnzr"
     private val jwtKey: Key = Keys.hmacShaKeyFor(Decoders.BASE64.decode(jwtSecret))
     private val logger = LoggerFactory.getLogger(JwtUtils::class.java)
-
-    fun createJwtCookie(userDetails: UserDetailsImpl): ResponseCookie {
-        val jwt = createJwtFromUsername(userDetails.username)
-        return ResponseCookie.from(jwtCookie, jwt).path("/").maxAge(jwtExpirationSeconds).sameSite("None").secure(true)
-            .build()
-    }
-
-    fun createCleanCookie(): ResponseCookie {
-        return ResponseCookie.from(jwtCookie, "").path("/").sameSite("None").secure(true).build()
-    }
 
     fun createJwtFromUsername(username: String): String {
         return Jwts.builder()
             .setSubject(username)
             .setIssuedAt(Date())
             .setExpiration(Date(Date().time + (jwtExpirationSeconds * 1000)))
-            //.signWith(SignatureAlgorithm.HS512, jwtSecret)
             .signWith(jwtKey, SignatureAlgorithm.HS512)
             .compact()
     }
 
     fun getJwtFromRequest(request: HttpServletRequest): String? {
-        val cookie = WebUtils.getCookie(request, jwtCookie)
-        return cookie?.value
+        return request.getHeader("Authorization")?.substringAfter("Bearer ")
     }
 
     fun validateJwt(jwt: String?): Boolean {
-        /*
-        return try {
-            Jwts.parserBuilder().setSigningKey(jwtKey).build().parseClaimsJws(jwt)
-            true
-        } catch (exception: Exception) {
-            false
-        }
-        */
         try {
-            //Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt)
             Jwts.parserBuilder().setSigningKey(jwtKey).build().parseClaimsJws(jwt)
             return true
         } catch (e: SecurityException) {
@@ -76,7 +54,6 @@ class JwtUtils {
     }
 
     fun getUsernameFromJwt(jwt: String?): String {
-        //return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(jwt).body.subject
         return Jwts.parserBuilder().setSigningKey(jwtKey).build().parseClaimsJws(jwt).body.subject
     }
 }
