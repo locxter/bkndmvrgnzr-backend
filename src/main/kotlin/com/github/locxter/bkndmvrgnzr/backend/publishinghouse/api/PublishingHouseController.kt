@@ -34,18 +34,18 @@ class PublishingHouseController(private val publishingHouseRepository: Publishin
         return publishingHouse.toDto()
     }
 
-    @GetMapping("/{publishing-house-id}")
+    @GetMapping("/{publishingHouseId}")
     @PreAuthorize("hasRole('USER')")
-    fun getPublishingHouse(@PathVariable(name = "publishing-house-id") publishingHouseId: String): PublishingHouseResponseDto {
+    fun getPublishingHouse(@PathVariable(name = "publishingHouseId") publishingHouseId: String): PublishingHouseResponseDto {
         val publishingHouse = publishingHouseRepository.findById(PublishingHouseId(publishingHouseId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested publishing house not found")
         return publishingHouse.toDto()
     }
 
-    @PutMapping("/{publishing-house-id}")
+    @PutMapping("/{publishingHouseId}")
     @PreAuthorize("hasRole('EDITOR')")
     fun updatePublishingHouse(
-        @PathVariable(name = "publishing-house-id") publishingHouseId: String,
+        @PathVariable(name = "publishingHouseId") publishingHouseId: String,
         @RequestBody publishingHouseUpdateDto: PublishingHouseUpdateDto
     ): PublishingHouseResponseDto {
         val publishingHouse = publishingHouseRepository.findById(PublishingHouseId(publishingHouseId)).orElse(null)
@@ -59,9 +59,9 @@ class PublishingHouseController(private val publishingHouseRepository: Publishin
         return updatedPublishingHouse.toDto()
     }
 
-    @DeleteMapping("/{publishing-house-id}")
+    @DeleteMapping("/{publishingHouseId}")
     @PreAuthorize("hasRole('EDITOR')")
-    fun deletePublishingHouse(@PathVariable(name = "publishing-house-id") publishingHouseId: String): PublishingHouseResponseDto {
+    fun deletePublishingHouse(@PathVariable(name = "publishingHouseId") publishingHouseId: String): PublishingHouseResponseDto {
         val publishingHouse = publishingHouseRepository.findById(PublishingHouseId(publishingHouseId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested publishing house not found")
         val publishingHouseDto = publishingHouse.toDto()

@@ -163,9 +163,9 @@ class BookController(
         return bookDto
     }
 
-    @GetMapping("/genre/{genre-id}")
+    @GetMapping("/genre/{genreId}")
     @PreAuthorize("hasRole('USER')")
-    fun getAllBooksOfGenre(@PathVariable(name = "genre-id") genreId: String): List<BookResponseDto> {
+    fun getAllBooksOfGenre(@PathVariable(name = "genreId") genreId: String): List<BookResponseDto> {
         val genre = genreRepository.findById(GenreId(genreId)).orElse(null) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
             "Requested genre not found"
@@ -174,27 +174,27 @@ class BookController(
         return books.map { it.toDto() }
     }
 
-    @GetMapping("/publishing-house/{publishing-house-id}")
+    @GetMapping("/publishing-house/{publishingHouseId}")
     @PreAuthorize("hasRole('USER')")
-    fun getAllBooksOfPublishingHouse(@PathVariable(name = "publishing-house-id") publishingHouseId: String): List<BookResponseDto> {
+    fun getAllBooksOfPublishingHouse(@PathVariable(name = "publishingHouseId") publishingHouseId: String): List<BookResponseDto> {
         val publishingHouse = publishingHouseRepository.findById(PublishingHouseId(publishingHouseId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested publishing house not found")
         val books = bookRepository.findByPublishingHouseId(publishingHouse.id)
         return books.map { it.toDto() }
     }
 
-    @GetMapping("/book-contributor/{book-contributor-id}")
+    @GetMapping("/book-contributor/{bookContributorId}")
     @PreAuthorize("hasRole('USER')")
-    fun getAllBooksOfBookContributor(@PathVariable(name = "book-contributor-id") bookContributorId: String): List<BookResponseDto> {
+    fun getAllBooksOfBookContributor(@PathVariable(name = "bookContributorId") bookContributorId: String): List<BookResponseDto> {
         val bookContributor = bookContributorRepository.findById(BookContributorId(bookContributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book contributor not found")
         val books = bookRepository.findByBookContributorsId(bookContributor.id)
         return books.map { it.toDto() }
     }
 
-    @GetMapping("/contributor/{contributor-id}")
+    @GetMapping("/contributor/{contributorId}")
     @PreAuthorize("hasRole('USER')")
-    fun getAllBooksOfContributor(@PathVariable(name = "contributor-id") contributorId: String): List<BookResponseDto> {
+    fun getAllBooksOfContributor(@PathVariable(name = "contributorId") contributorId: String): List<BookResponseDto> {
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val bookContributors = bookContributorRepository.findByContributorId(contributor.id)
@@ -296,11 +296,11 @@ class BookController(
         return userBooks.map { it.toDto() }
     }
 
-    @GetMapping("/user/genre/{genre-id}")
+    @GetMapping("/user/genre/{genreId}")
     @PreAuthorize("hasRole('USER')")
     fun getAllBooksOfGenreFromUser(
         authentication: Authentication,
-        @PathVariable(name = "genre-id") genreId: String
+        @PathVariable(name = "genreId") genreId: String
     ): List<BookResponseDto> {
         val user = userRepository.findByUsername(authentication.name) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
@@ -321,11 +321,11 @@ class BookController(
         return books.map { it.toDto() }
     }
 
-    @GetMapping("/user/publishing-house/{publishing-house-id}")
+    @GetMapping("/user/publishing-house/{publishingHouseId}")
     @PreAuthorize("hasRole('USER')")
     fun getAllBooksOfPublishingHouseFromUser(
         authentication: Authentication,
-        @PathVariable(name = "publishing-house-id") publishingHouseId: String
+        @PathVariable(name = "publishingHouseId") publishingHouseId: String
     ): List<BookResponseDto> {
         val user = userRepository.findByUsername(authentication.name) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
@@ -347,11 +347,11 @@ class BookController(
         return books.map { it.toDto() }
     }
 
-    @GetMapping("/user/book-contributor/{book-contributor-id}")
+    @GetMapping("/user/book-contributor/{bookContributorId}")
     @PreAuthorize("hasRole('USER')")
     fun getAllBooksOfBookContributorFromUser(
         authentication: Authentication,
-        @PathVariable(name = "book-contributor-id") bookContributorId: String
+        @PathVariable(name = "bookContributorId") bookContributorId: String
     ): List<BookResponseDto> {
         val user = userRepository.findByUsername(authentication.name) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
@@ -370,11 +370,11 @@ class BookController(
         return books.map { it.toDto() }
     }
 
-    @GetMapping("/user/contributor/{contributor-id}")
+    @GetMapping("/user/contributor/{contributorId}")
     @PreAuthorize("hasRole('USER')")
     fun getAllBooksOfContributorFromUser(
         authentication: Authentication,
-        @PathVariable(name = "contributor-id") contributorId: String
+        @PathVariable(name = "contributorId") contributorId: String
     ): List<BookResponseDto> {
         val user = userRepository.findByUsername(authentication.name) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,

@@ -32,9 +32,9 @@ class GenreController(private val genreRepository: GenreRepository) {
         return genre.toDto()
     }
 
-    @GetMapping("/{genre-id}")
+    @GetMapping("/{genreId}")
     @PreAuthorize("hasRole('USER')")
-    fun getGenre(@PathVariable(name = "genre-id") genreId: String): GenreResponseDto {
+    fun getGenre(@PathVariable(name = "genreId") genreId: String): GenreResponseDto {
         val genre = genreRepository.findById(GenreId(genreId)).orElse(null) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
             "Requested genre not found"
@@ -42,10 +42,10 @@ class GenreController(private val genreRepository: GenreRepository) {
         return genre.toDto()
     }
 
-    @PutMapping("/{genre-id}")
+    @PutMapping("/{genreId}")
     @PreAuthorize("hasRole('EDITOR')")
     fun updateGenre(
-        @PathVariable(name = "genre-id") genreId: String,
+        @PathVariable(name = "genreId") genreId: String,
         @RequestBody genreUpdateDto: GenreUpdateDto
     ): GenreResponseDto {
         val genre = genreRepository.findById(GenreId(genreId)).orElse(null) ?: throw ResponseStatusException(
@@ -59,9 +59,9 @@ class GenreController(private val genreRepository: GenreRepository) {
         return updatedGenre.toDto()
     }
 
-    @DeleteMapping("/{genre-id}")
+    @DeleteMapping("/{genreId}")
     @PreAuthorize("hasRole('EDITOR')")
-    fun deleteGenre(@PathVariable(name = "genre-id") genreId: String): GenreResponseDto {
+    fun deleteGenre(@PathVariable(name = "genreId") genreId: String): GenreResponseDto {
         val genre = genreRepository.findById(GenreId(genreId)).orElse(null) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
             "Requested genre not found"

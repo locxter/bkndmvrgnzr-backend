@@ -140,9 +140,9 @@ class MovieController(
         return movieDto
     }
 
-    @GetMapping("/genre/{genre-id}")
+    @GetMapping("/genre/{genreId}")
     @PreAuthorize("hasRole('USER')")
-    fun getAllMoviesOfGenre(@PathVariable(name = "genre-id") genreId: String): List<MovieResponseDto> {
+    fun getAllMoviesOfGenre(@PathVariable(name = "genreId") genreId: String): List<MovieResponseDto> {
         val genre = genreRepository.findById(GenreId(genreId)).orElse(null) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
             "Requested genre not found"
@@ -151,9 +151,9 @@ class MovieController(
         return movies.map { it.toDto() }
     }
 
-    @GetMapping("/movie-contributor/{movie-contributor-id}")
+    @GetMapping("/movie-contributor/{movieContributorId}")
     @PreAuthorize("hasRole('USER')")
-    fun getAllMoviesOfMovieContributor(@PathVariable(name = "movie-contributor-id") movieContributorId: String): List<MovieResponseDto> {
+    fun getAllMoviesOfMovieContributor(@PathVariable(name = "movieContributorId") movieContributorId: String): List<MovieResponseDto> {
         val movieContributor =
             movieContributorRepository.findById(MovieContributorId(movieContributorId)).orElse(null)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie contributor not found")
@@ -161,9 +161,9 @@ class MovieController(
         return movies.map { it.toDto() }
     }
 
-    @GetMapping("/contributor/{contributor-id}")
+    @GetMapping("/contributor/{contributorId}")
     @PreAuthorize("hasRole('USER')")
-    fun getAllMoviesOfContributor(@PathVariable(name = "contributor-id") contributorId: String): List<MovieResponseDto> {
+    fun getAllMoviesOfContributor(@PathVariable(name = "contributorId") contributorId: String): List<MovieResponseDto> {
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val movieContributors = movieContributorRepository.findByContributorId(contributor.id)
@@ -261,11 +261,11 @@ class MovieController(
         return userMovies.map { it.toDto() }
     }
 
-    @GetMapping("/user/genre/{genre-id}")
+    @GetMapping("/user/genre/{genreId}")
     @PreAuthorize("hasRole('USER')")
     fun getAllMoviesOfGenreFromUser(
         authentication: Authentication,
-        @PathVariable(name = "genre-id") genreId: String
+        @PathVariable(name = "genreId") genreId: String
     ): List<MovieResponseDto> {
         val user = userRepository.findByUsername(authentication.name) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
@@ -286,11 +286,11 @@ class MovieController(
         return movies.map { it.toDto() }
     }
 
-    @GetMapping("/user/movie-contributor/{movie-contributor-id}")
+    @GetMapping("/user/movie-contributor/{movieContributorId}")
     @PreAuthorize("hasRole('USER')")
     fun getAllMoviesOfMoviesContributorFromUser(
         authentication: Authentication,
-        @PathVariable(name = "movie-contributor-id") movieContributorId: String
+        @PathVariable(name = "movieContributorId") movieContributorId: String
     ): List<MovieResponseDto> {
         val user = userRepository.findByUsername(authentication.name) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,
@@ -310,11 +310,11 @@ class MovieController(
         return movies.map { it.toDto() }
     }
 
-    @GetMapping("/user/contributor/{contributor-id}")
+    @GetMapping("/user/contributor/{contributorId}")
     @PreAuthorize("hasRole('USER')")
     fun getAllMoviesOfContributorFromUser(
         authentication: Authentication,
-        @PathVariable(name = "contributor-id") contributorId: String
+        @PathVariable(name = "contributorId") contributorId: String
     ): List<MovieResponseDto> {
         val user = userRepository.findByUsername(authentication.name) ?: throw ResponseStatusException(
             HttpStatus.NOT_FOUND,

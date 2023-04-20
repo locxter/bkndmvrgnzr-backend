@@ -40,18 +40,18 @@ class ContributorController(private val contributorRepository: ContributorReposi
         return contributor.toDto()
     }
 
-    @GetMapping("/{contributor-id}")
+    @GetMapping("/{contributorId}")
     @PreAuthorize("hasRole('USER')")
-    fun getContributor(@PathVariable(name = "contributor-id") contributorId: String): ContributorResponseDto {
+    fun getContributor(@PathVariable(name = "contributorId") contributorId: String): ContributorResponseDto {
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         return contributor.toDto()
     }
 
-    @PutMapping("/{contributor-id}")
+    @PutMapping("/{contributorId}")
     @PreAuthorize("hasRole('EDITOR')")
     fun updateContributor(
-        @PathVariable(name = "contributor-id") contributorId: String,
+        @PathVariable(name = "contributorId") contributorId: String,
         @RequestBody contributorUpdateDto: ContributorUpdateDto
     ): ContributorResponseDto {
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
@@ -70,9 +70,9 @@ class ContributorController(private val contributorRepository: ContributorReposi
         return updatedContributor.toDto()
     }
 
-    @DeleteMapping("/{contributor-id}")
+    @DeleteMapping("/{contributorId}")
     @PreAuthorize("hasRole('EDITOR')")
-    fun deleteContributor(@PathVariable(name = "contributor-id") contributorId: String): ContributorResponseDto {
+    fun deleteContributor(@PathVariable(name = "contributorId") contributorId: String): ContributorResponseDto {
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val contributorDto = contributor.toDto()

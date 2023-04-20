@@ -52,18 +52,18 @@ class BookContributorController(
         return bookContributor.toDto()
     }
 
-    @GetMapping("/{book-contributor-id}")
+    @GetMapping("/{bookContributorId}")
     @PreAuthorize("hasRole('USER')")
-    fun getBookContributor(@PathVariable(name = "book-contributor-id") bookContributorId: String): BookContributorResponseDto {
+    fun getBookContributor(@PathVariable(name = "bookContributorId") bookContributorId: String): BookContributorResponseDto {
         val bookContributor = bookContributorRepository.findById(BookContributorId(bookContributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book contributor not found")
         return bookContributor.toDto()
     }
 
-    @PutMapping("/{book-contributor-id}")
+    @PutMapping("/{bookContributorId}")
     @PreAuthorize("hasRole('EDITOR')")
     fun updateBookContributor(
-        @PathVariable(name = "book-contributor-id") bookContributorId: String,
+        @PathVariable(name = "bookContributorId") bookContributorId: String,
         @RequestBody bookContributorUpdateDto: BookContributorUpdateDto
     ): BookContributorResponseDto {
         val bookContributor = bookContributorRepository.findById(BookContributorId(bookContributorId)).orElse(null)
@@ -91,9 +91,9 @@ class BookContributorController(
         return updatedBookContributor.toDto()
     }
 
-    @DeleteMapping("/{book-contributor-id}")
+    @DeleteMapping("/{bookContributorId}")
     @PreAuthorize("hasRole('EDITOR')")
-    fun deleteBookContributor(@PathVariable(name = "book-contributor-id") bookContributorId: String): BookContributorResponseDto {
+    fun deleteBookContributor(@PathVariable(name = "bookContributorId") bookContributorId: String): BookContributorResponseDto {
         val bookContributor = bookContributorRepository.findById(BookContributorId(bookContributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book contributor not found")
         val bookContributorDto = bookContributor.toDto()
@@ -101,9 +101,9 @@ class BookContributorController(
         return bookContributorDto
     }
 
-    @GetMapping("/contributor/{contributor-id}")
+    @GetMapping("/contributor/{contributorId}")
     @PreAuthorize("hasRole('USER')")
-    fun getAllBookContributorsOfContributor(@PathVariable(name = "contributor-id") contributorId: String): List<BookContributorResponseDto> {
+    fun getAllBookContributorsOfContributor(@PathVariable(name = "contributorId") contributorId: String): List<BookContributorResponseDto> {
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val bookContributors =
@@ -111,9 +111,9 @@ class BookContributorController(
         return bookContributors.map { it.toDto() }
     }
 
-    @GetMapping("/book-role/{book-role-id}")
+    @GetMapping("/book-role/{bookRoleId}")
     @PreAuthorize("hasRole('USER')")
-    fun getAllBookContributorsOfBookRole(@PathVariable(name = "book-role-id") bookRoleId: String): List<BookContributorResponseDto> {
+    fun getAllBookContributorsOfBookRole(@PathVariable(name = "bookRoleId") bookRoleId: String): List<BookContributorResponseDto> {
         val bookRole = bookRoleRepository.findById(BookRoleId(bookRoleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book role not found")
         val bookContributors =

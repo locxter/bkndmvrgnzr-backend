@@ -36,11 +36,11 @@ class UserController(
         return users.map { it.toDto() }
     }
 
-    @GetMapping("/{user-id}")
+    @GetMapping("/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     fun getSpecificUser(
         authentication: Authentication,
-        @PathVariable(name = "user-id") userId: String
+        @PathVariable(name = "userId") userId: String
     ): UserResponseDto {
         val user = userRepository.findById(UserId(userId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
@@ -92,11 +92,11 @@ class UserController(
         return updatedUser.toDto()
     }
 
-    @PutMapping("/{user-id}")
+    @PutMapping("/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     fun updateSpecificUser(
         authentication: Authentication,
-        @PathVariable(name = "user-id") userId: String,
+        @PathVariable(name = "userId") userId: String,
         @RequestBody userUpdateDto: UserUpdateDto
     ): UserResponseDto {
         val user = userRepository.findById(UserId(userId)).orElse(null) ?: throw ResponseStatusException(
@@ -139,11 +139,11 @@ class UserController(
         return userDto
     }
 
-    @DeleteMapping("/{user-id}")
+    @DeleteMapping("/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     fun deleteSpecificUser(
         authentication: Authentication,
-        @PathVariable(name = "user-id") userId: String,
+        @PathVariable(name = "userId") userId: String,
         @RequestBody userDeleteDto: UserDeleteDto
     ): UserResponseDto {
         val user = userRepository.findById(UserId(userId)).orElse(null)

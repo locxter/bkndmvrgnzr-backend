@@ -32,9 +32,9 @@ class MovieRoleController(private val movieRoleRepository: MovieRoleRepository) 
         return movieRole.toDto()
     }
 
-    @GetMapping("/{movie-role-id}")
+    @GetMapping("/{movieRoleId}")
     @PreAuthorize("hasRole('USER')")
-    fun getMovieRole(@PathVariable(name = "movie-role-id") movieRoleId: String): MovieRoleResponseDto {
+    fun getMovieRole(@PathVariable(name = "movieRoleId") movieRoleId: String): MovieRoleResponseDto {
         val movieRole =
             movieRoleRepository.findById(MovieRoleId(movieRoleId)).orElse(null) ?: throw ResponseStatusException(
                 HttpStatus.NOT_FOUND,
@@ -43,10 +43,10 @@ class MovieRoleController(private val movieRoleRepository: MovieRoleRepository) 
         return movieRole.toDto()
     }
 
-    @PutMapping("/{movie-role-id}")
+    @PutMapping("/{movieRoleId}")
     @PreAuthorize("hasRole('EDITOR')")
     fun updateMovieRole(
-        @PathVariable(name = "movie-role-id") movieRoleId: String,
+        @PathVariable(name = "movieRoleId") movieRoleId: String,
         @RequestBody movieRoleUpdateDto: MovieRoleUpdateDto
     ): MovieRoleResponseDto {
         val movieRole =
@@ -61,9 +61,9 @@ class MovieRoleController(private val movieRoleRepository: MovieRoleRepository) 
         return updatedMovieRole.toDto()
     }
 
-    @DeleteMapping("/{movie-role-id}")
+    @DeleteMapping("/{movieRoleId}")
     @PreAuthorize("hasRole('EDITOR')")
-    fun deleteMovieRole(@PathVariable(name = "movie-role-id") movieRoleId: String): MovieRoleResponseDto {
+    fun deleteMovieRole(@PathVariable(name = "movieRoleId") movieRoleId: String): MovieRoleResponseDto {
         val movieRole =
             movieRoleRepository.findById(MovieRoleId(movieRoleId)).orElse(null) ?: throw ResponseStatusException(
                 HttpStatus.NOT_FOUND,

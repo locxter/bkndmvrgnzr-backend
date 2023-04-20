@@ -33,9 +33,9 @@ class BookRoleController(private val bookRoleRepository: BookRoleRepository) {
         return bookRole.toDto()
     }
 
-    @GetMapping("/{book-role-id}")
+    @GetMapping("/{bookRoleId}")
     @PreAuthorize("hasRole('USER')")
-    fun getBookRole(@PathVariable(name = "book-role-id") bookRoleId: String): BookRoleResponseDto {
+    fun getBookRole(@PathVariable(name = "bookRoleId") bookRoleId: String): BookRoleResponseDto {
         val bookRole =
             bookRoleRepository.findById(BookRoleId(bookRoleId)).orElse(null) ?: throw ResponseStatusException(
                 HttpStatus.NOT_FOUND,
@@ -44,10 +44,10 @@ class BookRoleController(private val bookRoleRepository: BookRoleRepository) {
         return bookRole.toDto()
     }
 
-    @PutMapping("/{book-role-id}")
+    @PutMapping("/{bookRoleId}")
     @PreAuthorize("hasRole('EDITOR')")
     fun updateBookRole(
-        @PathVariable(name = "book-role-id") bookRoleId: String,
+        @PathVariable(name = "bookRoleId") bookRoleId: String,
         @RequestBody bookRoleUpdateDto: BookRoleUpdateDto
     ): BookRoleResponseDto {
         val bookRole =
@@ -62,9 +62,9 @@ class BookRoleController(private val bookRoleRepository: BookRoleRepository) {
         return updatedBookRole.toDto()
     }
 
-    @DeleteMapping("/{book-role-id}")
+    @DeleteMapping("/{bookRoleId}")
     @PreAuthorize("hasRole('EDITOR')")
-    fun deleteBookRole(@PathVariable(name = "book-role-id") bookRoleId: String): BookRoleResponseDto {
+    fun deleteBookRole(@PathVariable(name = "bookRoleId") bookRoleId: String): BookRoleResponseDto {
         val bookRole =
             bookRoleRepository.findById(BookRoleId(bookRoleId)).orElse(null) ?: throw ResponseStatusException(
                 HttpStatus.NOT_FOUND,

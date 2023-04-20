@@ -21,9 +21,9 @@ class RoleController(private val roleRepository: RoleRepository, private val use
         return roles.map { it.toDto() }
     }
 
-    @GetMapping("/{role-id}")
+    @GetMapping("/{roleId}")
     @PreAuthorize("hasRole('USER')")
-    fun getRole(@PathVariable(name = "role-id") roleId: String): RoleResponseDto {
+    fun getRole(@PathVariable(name = "roleId") roleId: String): RoleResponseDto {
         val role = roleRepository.findById(RoleId(roleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested role not found")
         return role.toDto()
@@ -40,11 +40,11 @@ class RoleController(private val roleRepository: RoleRepository, private val use
         return roles.map { it.toDto() }
     }
 
-    @GetMapping("/user/{user-id}")
+    @GetMapping("/user/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     fun getAllRolesOfSpecificUser(
         authentication: Authentication,
-        @PathVariable(name = "user-id") userId: String
+        @PathVariable(name = "userId") userId: String
     ): List<RoleResponseDto> {
         val user = userRepository.findById(UserId(userId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
@@ -52,12 +52,12 @@ class RoleController(private val roleRepository: RoleRepository, private val use
         return roles.map { it.toDto() }
     }
 
-    @PostMapping("/user/{user-id}/role/{role-id}")
+    @PostMapping("/user/{userId}/role/{roleId}")
     @PreAuthorize("hasRole('ADMIN')")
     fun addRoleToSpecificUser(
         authentication: Authentication,
-        @PathVariable(name = "user-id") userId: String,
-        @PathVariable(name = "role-id") roleId: String
+        @PathVariable(name = "userId") userId: String,
+        @PathVariable(name = "roleId") roleId: String
     ): List<RoleResponseDto> {
         val user = userRepository.findById(UserId(userId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
@@ -72,12 +72,12 @@ class RoleController(private val roleRepository: RoleRepository, private val use
         return userRoles.sortedBy { it.type.name }.map { it.toDto() }
     }
 
-    @DeleteMapping("/user/{user-id}/role/{role-id}")
+    @DeleteMapping("/user/{userId}/role/{roleId}")
     @PreAuthorize("hasRole('ADMIN')")
     fun removeRoleFromSpecificUser(
         authentication: Authentication,
-        @PathVariable(name = "user-id") userId: String,
-        @PathVariable(name = "role-id") roleId: String
+        @PathVariable(name = "userId") userId: String,
+        @PathVariable(name = "roleId") roleId: String
     ): List<RoleResponseDto> {
         val user = userRepository.findById(UserId(userId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
