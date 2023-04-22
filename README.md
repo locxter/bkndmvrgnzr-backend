@@ -50,7 +50,7 @@ This project uses Swagger to programmatically generate an up-to-date API documen
 User-agnostic:
 
 - [x] Get all books: GET /api/book ROLE_USER
-- [x] Add a book: POST /api/book ROLE_EDITOR
+- [x] Create a book: POST /api/book ROLE_EDITOR
 - [x] Get a specific book: GET /api/book/{isbn} ROLE_USER
 - [x] Update a specific book: PUT /api/book/{isbn} ROLE_EDITOR
 - [x] Delete a specific book: DELETE /api/book/{isbn} ROLE_EDITOR
@@ -74,7 +74,7 @@ User-specific:
 ### Book contributor
 
 - [x] Get all book contributors: GET /api/book-contributor ROLE_USER
-- [x] Add a book contributor: POST /api/book-contributor ROLE_EDITOR
+- [x] Create a book contributor: POST /api/book-contributor ROLE_EDITOR
 - [x] Get a specific book contributor: GET /api/book-contributor/{bookContributorId} ROLE_USER
 - [x] Update a specific book contributor: PUT /api/book-contributor/{bookContributorId} ROLE_EDITOR
 - [x] Delete a specific book contributor: DELETE /api/book-contributor/{bookContributorId} ROLE_EDITOR
@@ -84,7 +84,7 @@ User-specific:
 ### Book role
 
 - [x] Get all book roles: GET /api/book-role ROLE_USER
-- [x] Add a book role: POST /api/book-role ROLE_EDITOR
+- [x] Create a book role: POST /api/book-role ROLE_EDITOR
 - [x] Get a specific book role: GET /api/book-role/{bookRoleId} ROLE_USER
 - [x] Update a specific book role: PUT /api/book-role/{bookRoleId} ROLE_EDITOR
 - [x] Delete a specific book role: DELETE /api/book-role/{bookRoleId} ROLE_EDITOR
@@ -93,7 +93,7 @@ User-specific:
 ### Contributor
 
 - [x] Get all contributors: GET /api/contributor ROLE_USER
-- [x] Add a contributor: POST /api/contributor ROLE_EDITOR
+- [x] Create a contributor: POST /api/contributor ROLE_EDITOR
 - [x] Get a specific contributor: GET /api/contributor/{contributorId} ROLE_USER
 - [x] Update a specific contributor: PUT /api/contributor/{contributorId} ROLE_EDITOR
 - [x] Delete a specific contributor: DELETE /api/contributor/{contributorId} ROLE_EDITOR
@@ -102,7 +102,7 @@ User-specific:
 ### Genre
 
 - [x] Get all genres: GET /api/genre ROLE_USER
-- [x] Add a genre: POST /api/genre ROLE_EDITOR
+- [x] Create a genre: POST /api/genre ROLE_EDITOR
 - [x] Get a specific genre: GET /api/genre/{genreId} ROLE_USER
 - [x] Update a specific genre: PUT /api/genre/{genreId} ROLE_EDITOR
 - [x] Delete a specific genre: DELETE /api/genre/{genreId} ROLE_EDITOR
@@ -113,7 +113,7 @@ User-specific:
 User-agnostic:
 
 - [x] Get all movies: GET /api/movie ROLE_USER
-- [x] Add a movie: POST /api/movie ROLE_EDITOR
+- [x] Create a movie: POST /api/movie ROLE_EDITOR
 - [x] Get a specific movie: GET /api/movie/{isan} ROLE_USER
 - [x] Update a specific movie: PUT /api/movie/{isan} ROLE_EDITOR
 - [x] Delete a specific movie: DELETE /api/movie/{isan} ROLE_EDITOR
@@ -135,7 +135,7 @@ User-specific:
 ### Movie contributor
 
 - [x] Get all movie contributors: GET /api/movie-contributor ROLE_USER
-- [x] Add a movie contributor: POST /api/movie-contributor ROLE_EDITOR
+- [x] Create a movie contributor: POST /api/movie-contributor ROLE_EDITOR
 - [x] Get a specific movie contributor: GET /api/movie-contributor/{movieContributorId} ROLE_USER
 - [x] Update a specific movie contributor: PUT /api/movie-contributor/{movieContributorId} ROLE_EDITOR
 - [x] Delete a specific movie contributor: DELETE /api/movie-contributor/{movieContributorId} ROLE_EDITOR
@@ -145,7 +145,7 @@ User-specific:
 ### Movie role
 
 - [x] Get all movies roles: GET /api/movie-role ROLE_USER
-- [x] Add a movies role: POST /api/movie-role ROLE_EDITOR
+- [x] Create a movies role: POST /api/movie-role ROLE_EDITOR
 - [x] Get a specific movies role: GET /api/movie-role/{movieRoleId} ROLE_USER
 - [x] Update a specific movies role: PUT /api/movie-role/{movieRoleId} ROLE_EDITOR
 - [x] Delete a specific movies role: DELETE /api/movie-role/{movieRoleId} ROLE_EDITOR
@@ -154,7 +154,7 @@ User-specific:
 ### Publishing house
 
 - [x] Get all publishing houses: GET /api/publishing-house ROLE_USER
-- [x] Add a publishing house: POST /api/publishing-house ROLE_EDITOR
+- [x] Create a publishing house: POST /api/publishing-house ROLE_EDITOR
 - [x] Get a specific publishing house: GET /api/publishing-house/{publishingHouseId} ROLE_USER
 - [x] Update a specific publishing house: PUT /api/publishing-house/{publishingHouseId} ROLE_EDITOR
 - [x] Delete a specific publishing house: DELETE /api/publishing-house/{publishingHouseId} ROLE_EDITOR
@@ -171,7 +171,7 @@ User-specific:
 
 - [x] Get all roles of user: GET /api/role/user ROLE_USER
 - [x] Get all roles of specific user: GET /api/role/user/{userId} ROLE_USER
-- [x] Add a role to specific user: POST /api/role/user/{userId}/role/{roleId} ROLE_ADMIN
+- [x] Create a role to specific user: POST /api/role/user/{userId}/role/{roleId} ROLE_ADMIN
 - [x] Remove a role from specific user: DELETE /api/role/user/{userId}/role/{roleId} ROLE_ADMIN
 
 ### User
@@ -179,7 +179,7 @@ User-specific:
 - [x] Get user: GET /api/user ROLE_USER
 - [x] Get all users: GET /api/user/all ROLE_ADMIN
 - [x] Get a specific user: GET /api/user/{userId} ROLE_ADMIN
-- [x] Add a user: POST /api/user
+- [x] Create a user: POST /api/user
 - [x] Update user: PUT /api/user ROLE_USER
 - [x] Update a specific user: PUT /api/user/{userId} ROLE_ADMIN
 - [x] Delete user: DELETE /api/user ROLE_USER
