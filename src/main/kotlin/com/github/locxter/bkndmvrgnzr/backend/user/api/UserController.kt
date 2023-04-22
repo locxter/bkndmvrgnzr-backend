@@ -158,4 +158,38 @@ class UserController(
         userRepository.delete(user)
         return userDto
     }
+
+    @GetMapping("/search/{query}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllUsersOfSearchQuery(@PathVariable(name = "query") query: String): List<UserResponseDto> {
+        val users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "username"))
+        val iterator = users.iterator()
+        while (iterator.hasNext()) {
+            val user = iterator.next()
+            var containsQuery = false
+            if (user.username.contains(query, true) || user.firstName.contains(query, true) ||
+                user.lastName.contains(query, true)
+            ) {
+                containsQuery = true
+            } else {
+                for (book in user.books) {
+                    if (book.title.contains(query, true) || book.subtitle.contains(query, true)
+                    ) {
+                        containsQuery = true
+                        break
+                    }
+                }
+                for (movie in user.movies) {
+                    if (movie.title.contains(query, true)) {
+                        containsQuery = true
+                        break
+                    }
+                }
+            }
+            if (!containsQuery) {
+                iterator.remove()
+            }
+        }
+        return users.map { it.toDto() }
+    }
 }

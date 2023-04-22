@@ -1,15 +1,12 @@
 package com.github.locxter.bkndmvrgnzr.backend.lib
 
-import com.github.locxter.bkndmvrgnzr.backend.auth.UserDetailsImpl
 import io.jsonwebtoken.*
 import io.jsonwebtoken.io.Decoders
 import io.jsonwebtoken.security.Keys
 import io.jsonwebtoken.security.SecurityException
 import jakarta.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
-import org.springframework.http.ResponseCookie
 import org.springframework.stereotype.Component
-import org.springframework.web.util.WebUtils
 import java.security.Key
 import java.util.*
 

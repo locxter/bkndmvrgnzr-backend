@@ -58,7 +58,7 @@ User-agnostic:
 - [x] Get all books of publishing house: GET /api/book/publishing-house/{publishingHouseId} ROLE_USER
 - [x] Get all books of book contributor: GET /api/book/book-contributor/{bookContributorId} ROLE_USER
 - [x] Get all books of contributor: GET /api/book/contributor/{contributorId} ROLE_USER
-- [x] Get all books of search query: GET /api/book/search/{query}
+- [x] Get all books of search query: GET /api/book/search/{query}  ROLE_USER
 
 User-specific:
 
@@ -69,6 +69,7 @@ User-specific:
 - [x] Get all books of publishing house from user: GET /api/book/user/publishing-house/{publishingHouseId} ROLE_USER
 - [x] Get all books of book contributor from user: GET /api/book/user/book-contributor/{bookContributorId} ROLE_USER
 - [x] Get all books of contributor from user: GET /api/book/user/contributor/{contributorId} ROLE_USER
+- [x] Get all books of search query from user: GET /api/book/user/search/{query}  ROLE_USER
 
 ### Book contributor
 
@@ -87,6 +88,7 @@ User-specific:
 - [x] Get a specific book role: GET /api/book-role/{bookRoleId} ROLE_USER
 - [x] Update a specific book role: PUT /api/book-role/{bookRoleId} ROLE_EDITOR
 - [x] Delete a specific book role: DELETE /api/book-role/{bookRoleId} ROLE_EDITOR
+- [x] Get all book roles of search query: GET /api/book-role/search/{query}  ROLE_USER
 
 ### Contributor
 
@@ -95,6 +97,7 @@ User-specific:
 - [x] Get a specific contributor: GET /api/contributor/{contributorId} ROLE_USER
 - [x] Update a specific contributor: PUT /api/contributor/{contributorId} ROLE_EDITOR
 - [x] Delete a specific contributor: DELETE /api/contributor/{contributorId} ROLE_EDITOR
+- [x] Get all contributors of search query: GET /api/contributor/search/{query}  ROLE_USER
 
 ### Genre
 
@@ -103,6 +106,7 @@ User-specific:
 - [x] Get a specific genre: GET /api/genre/{genreId} ROLE_USER
 - [x] Update a specific genre: PUT /api/genre/{genreId} ROLE_EDITOR
 - [x] Delete a specific genre: DELETE /api/genre/{genreId} ROLE_EDITOR
+- [x] Get all genres of search query: GET /api/genre/search/{query}  ROLE_USER
 
 ### Movie
 
@@ -116,7 +120,7 @@ User-agnostic:
 - [x] Get all movies of genre: GET /api/movie/genre/{genreId} ROLE_USER
 - [x] Get all movies of movie contributor: GET /api/movie/movie-contributor/{movieContributorId} ROLE_USER
 - [x] Get all movies of contributor: GET /api/movie/contributor/{contributorId} ROLE_USER
-- [x] Get all movies of search query: GET /api/movie/search/{query}
+- [x] Get all movies of search query: GET /api/movie/search/{query}  ROLE_USER
 
 User-specific:
 
@@ -126,6 +130,7 @@ User-specific:
 - [x] Get all movies of genre from user: GET /api/movie/user/genre/{genreId} ROLE_USER
 - [x] Get all movies of movie contributor from user: GET /api/movie/user/movie-contributor/{movieContributorId} ROLE_USER
 - [x] Get all movies of contributor from user: GET /api/movie/user/contributor/{contributorId} ROLE_USER
+- [x] Get all books of search query from user: GET /api/movie/user/search/{query}  ROLE_USER
 
 ### Movie contributor
 
@@ -144,6 +149,7 @@ User-specific:
 - [x] Get a specific movies role: GET /api/movie-role/{movieRoleId} ROLE_USER
 - [x] Update a specific movies role: PUT /api/movie-role/{movieRoleId} ROLE_EDITOR
 - [x] Delete a specific movies role: DELETE /api/movie-role/{movieRoleId} ROLE_EDITOR
+- [x] Get all movie roles of search query: GET /api/movie-role/search/{query}  ROLE_USER
 
 ### Publishing house
 
@@ -152,6 +158,7 @@ User-specific:
 - [x] Get a specific publishing house: GET /api/publishing-house/{publishingHouseId} ROLE_USER
 - [x] Update a specific publishing house: PUT /api/publishing-house/{publishingHouseId} ROLE_EDITOR
 - [x] Delete a specific publishing house: DELETE /api/publishing-house/{publishingHouseId} ROLE_EDITOR
+- [x] Get all publishing houses of search query: GET /api/publishing-house/search/{query}  ROLE_USER
 
 ### Role
 
@@ -177,3 +184,4 @@ User-specific:
 - [x] Update a specific user: PUT /api/user/{userId} ROLE_ADMIN
 - [x] Delete user: DELETE /api/user ROLE_USER
 - [x] Delete a specific user: DELETE /api/user/{userId} ROLE_ADMIN
+- [x] Get all users of search query: GET /api/user/search/{query}  ROLE_ADMIN

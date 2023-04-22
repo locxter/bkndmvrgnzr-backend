@@ -79,4 +79,38 @@ class ContributorController(private val contributorRepository: ContributorReposi
         contributorRepository.delete(contributor)
         return contributorDto
     }
+
+    @GetMapping("/search/{query}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllContributorsOfSearchQuery(@PathVariable(name = "query") query: String): List<ContributorResponseDto> {
+        val contributors = contributorRepository.findAll(Sort.by(Sort.Direction.ASC, "lastName", "firstName"))
+        val iterator = contributors.iterator()
+        while (iterator.hasNext()) {
+            val contributor = iterator.next()
+            var containsQuery = false
+            if (contributor.firstName.contains(query, true) || contributor.lastName.contains(query, true) ||
+                contributor.birthYear == query.toIntOrNull() || contributor.birthMonth == query.toIntOrNull() ||
+                contributor.birthDay == query.toIntOrNull()
+            ) {
+                containsQuery = true
+            } else {
+                for (bookContributor in contributor.bookContributors) {
+                    if (bookContributor.bookRole.name.contains(query, true)) {
+                        containsQuery = true
+                        break
+                    }
+                }
+                for (movieContributor in contributor.movieContributors) {
+                    if (movieContributor.movieRole.name.contains(query, true)) {
+                        containsQuery = true
+                        break
+                    }
+                }
+            }
+            if (!containsQuery) {
+                iterator.remove()
+            }
+        }
+        return contributors.map { it.toDto() }
+    }
 }

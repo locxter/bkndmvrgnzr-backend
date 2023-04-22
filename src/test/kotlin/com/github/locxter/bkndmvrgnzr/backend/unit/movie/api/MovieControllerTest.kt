@@ -62,7 +62,7 @@ class MovieControllerTest {
 
     private fun initMocks() = MockBuilder()
 
-    private class MockBuilder() {
+    private class MockBuilder {
         fun expectFindByUsername(forUsername: String, withUserId: UserId) = apply {
             every { userRepo.findByUsername(forUsername) } returns mockk(relaxed = true) {
                 every { id } returns withUserId

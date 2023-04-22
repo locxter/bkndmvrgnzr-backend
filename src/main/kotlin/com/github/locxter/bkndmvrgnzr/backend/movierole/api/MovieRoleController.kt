@@ -73,4 +73,31 @@ class MovieRoleController(private val movieRoleRepository: MovieRoleRepository) 
         movieRoleRepository.delete(movieRole)
         return movieRoleDto
     }
+
+    @GetMapping("/search/{query}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllMovieRolesOfSearchQuery(@PathVariable(name = "query") query: String): List<MovieRoleResponseDto> {
+        val movieRoles = movieRoleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val iterator = movieRoles.iterator()
+        while (iterator.hasNext()) {
+            val movieRole = iterator.next()
+            var containsQuery = false
+            if (movieRole.name.contains(query, true)) {
+                containsQuery = true
+            } else {
+                for (movieContributor in movieRole.movieContributors) {
+                    if (movieContributor.contributor.firstName.contains(query, true) ||
+                        movieContributor.contributor.lastName.contains(query, true)
+                    ) {
+                        containsQuery = true
+                        break
+                    }
+                }
+            }
+            if (!containsQuery) {
+                iterator.remove()
+            }
+        }
+        return movieRoles.map { it.toDto() }
+    }
 }

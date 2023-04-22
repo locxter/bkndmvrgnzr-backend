@@ -74,4 +74,31 @@ class BookRoleController(private val bookRoleRepository: BookRoleRepository) {
         bookRoleRepository.delete(bookRole)
         return bookRoleDto
     }
+
+    @GetMapping("/search/{query}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllBookRolesOfSearchQuery(@PathVariable(name = "query") query: String): List<BookRoleResponseDto> {
+        val bookRoles = bookRoleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val iterator = bookRoles.iterator()
+        while (iterator.hasNext()) {
+            val bookRole = iterator.next()
+            var containsQuery = false
+            if (bookRole.name.contains(query, true)) {
+                containsQuery = true
+            } else {
+                for (bookContributor in bookRole.bookContributors) {
+                    if (bookContributor.contributor.firstName.contains(query, true) ||
+                        bookContributor.contributor.lastName.contains(query, true)
+                    ) {
+                        containsQuery = true
+                        break
+                    }
+                }
+            }
+            if (!containsQuery) {
+                iterator.remove()
+            }
+        }
+        return bookRoles.map { it.toDto() }
+    }
 }

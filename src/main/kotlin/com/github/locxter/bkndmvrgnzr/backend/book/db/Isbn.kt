@@ -10,12 +10,16 @@ data class Isbn(
 ) : Serializable {
     @Transient
     val prefix: String
+
     @Transient
     val registrantGroup: String
+
     @Transient
     val registrant: String
+
     @Transient
     val publication: String
+
     @Transient
     val checksum: String
 

@@ -68,4 +68,31 @@ class PublishingHouseController(private val publishingHouseRepository: Publishin
         publishingHouseRepository.delete(publishingHouse)
         return publishingHouseDto
     }
+
+    @GetMapping("/search/{query}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllPublishingHousesOfSearchQuery(@PathVariable(name = "query") query: String): List<PublishingHouseResponseDto> {
+        val publishingHouses = publishingHouseRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val iterator = publishingHouses.iterator()
+        while (iterator.hasNext()) {
+            val publishingHouse = iterator.next()
+            var containsQuery = false
+            if (publishingHouse.name.contains(query, true) || publishingHouse.city.contains(query, true) ||
+                publishingHouse.country.contains(query, true)
+            ) {
+                containsQuery = true
+            } else {
+                for (book in publishingHouse.books) {
+                    if (book.title.contains(query, true) || book.subtitle.contains(query, true)) {
+                        containsQuery = true
+                        break
+                    }
+                }
+            }
+            if (!containsQuery) {
+                iterator.remove()
+            }
+        }
+        return publishingHouses.map { it.toDto() }
+    }
 }

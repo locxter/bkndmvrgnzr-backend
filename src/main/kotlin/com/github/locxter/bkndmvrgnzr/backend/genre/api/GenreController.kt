@@ -70,4 +70,35 @@ class GenreController(private val genreRepository: GenreRepository) {
         genreRepository.delete(genre)
         return genreDto
     }
+
+    @GetMapping("/search/{query}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllGenresOfSearchQuery(@PathVariable(name = "query") query: String): List<GenreResponseDto> {
+        val genres = genreRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val iterator = genres.iterator()
+        while (iterator.hasNext()) {
+            val genre = iterator.next()
+            var containsQuery = false
+            if (genre.name.contains(query, true)) {
+                containsQuery = true
+            } else {
+                for (book in genre.books) {
+                    if (book.title.contains(query, true) || book.subtitle.contains(query, true)) {
+                        containsQuery = true
+                        break
+                    }
+                }
+                for (movie in genre.movies) {
+                    if (movie.title.contains(query, true)) {
+                        containsQuery = true
+                        break
+                    }
+                }
+            }
+            if (!containsQuery) {
+                iterator.remove()
+            }
+        }
+        return genres.map { it.toDto() }
+    }
 }
