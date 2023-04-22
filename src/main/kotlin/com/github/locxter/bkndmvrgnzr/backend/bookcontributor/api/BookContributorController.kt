@@ -120,4 +120,25 @@ class BookContributorController(
             bookContributorRepository.findByBookRoleId(bookRole.id, Sort.by(Sort.Direction.ASC, "contributor"))
         return bookContributors.map { it.toDto() }
     }
+
+    @GetMapping("/search/{query}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllBookContributorsOfSearchQuery(@PathVariable(name = "query") query: String): List<BookContributorResponseDto> {
+        val bookContributors = bookContributorRepository.findAll(Sort.by(Sort.Direction.ASC, "contributor"))
+        val iterator = bookContributors.iterator()
+        while (iterator.hasNext()) {
+            val bookContributor = iterator.next()
+            var containsQuery = false
+            if (bookContributor.bookRole.name.contains(query, true) ||
+                bookContributor.contributor.firstName.contains(query, true) ||
+                bookContributor.contributor.lastName.contains(query, true)
+            ) {
+                containsQuery = true
+            }
+            if (!containsQuery) {
+                iterator.remove()
+            }
+        }
+        return bookContributors.map { it.toDto() }
+    }
 }

@@ -123,4 +123,25 @@ class MovieContributorController(
             movieContributorRepository.findByMovieRoleId(movieRole.id, Sort.by(Sort.Direction.ASC, "contributor"))
         return movieContributors.map { it.toDto() }
     }
+
+    @GetMapping("/search/{query}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllMovieContributorsOfSearchQuery(@PathVariable(name = "query") query: String): List<MovieContributorResponseDto> {
+        val movieContributors = movieContributorRepository.findAll(Sort.by(Sort.Direction.ASC, "contributor"))
+        val iterator = movieContributors.iterator()
+        while (iterator.hasNext()) {
+            val movieContributor = iterator.next()
+            var containsQuery = false
+            if (movieContributor.movieRole.name.contains(query, true) ||
+                movieContributor.contributor.firstName.contains(query, true) ||
+                movieContributor.contributor.lastName.contains(query, true)
+            ) {
+                containsQuery = true
+            }
+            if (!containsQuery) {
+                iterator.remove()
+            }
+        }
+        return movieContributors.map { it.toDto() }
+    }
 }
