@@ -1,5 +1,8 @@
 package com.github.locxter.bkndmvrgnzr.backend.movierole.api
 
+import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorId
+import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorRepository
+import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributorRepository
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRole
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleId
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleRepository
@@ -11,7 +14,10 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/movie-role")
-class MovieRoleController(private val movieRoleRepository: MovieRoleRepository) {
+class MovieRoleController(private val movieRoleRepository: MovieRoleRepository,
+                          private val movieContributorRepository: MovieContributorRepository,
+                          private val contributorRepository: ContributorRepository
+) {
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllMovieRoles(): List<MovieRoleResponseDto> {
@@ -72,6 +78,24 @@ class MovieRoleController(private val movieRoleRepository: MovieRoleRepository) 
         val movieRoleDto = movieRole.toDto()
         movieRoleRepository.delete(movieRole)
         return movieRoleDto
+    }
+
+    @GetMapping("/contributor/{contributorId}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllMovieRolesOfContributor(@PathVariable(name = "contributorId") contributorId: String): List<MovieRoleResponseDto> {
+        val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
+        val movieContributors = movieContributorRepository.findByContributorId(contributor.id)
+        val movieRoles: ArrayList<MovieRole> = ArrayList()
+        for (movieContributor in movieContributors) {
+            movieRoles.add(
+                movieRoleRepository.findByMovieContributorsId(movieContributor.id) ?: throw ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Requested movie role not found"
+                )
+            )
+        }
+        return movieRoles.map { it.toDto() }
     }
 
     @GetMapping("/search/{query}")

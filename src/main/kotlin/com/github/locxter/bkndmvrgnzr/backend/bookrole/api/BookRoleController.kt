@@ -1,8 +1,11 @@
 package com.github.locxter.bkndmvrgnzr.backend.bookrole.api
 
+import com.github.locxter.bkndmvrgnzr.backend.bookcontributor.db.BookContributorRepository
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRole
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRoleId
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRoleRepository
+import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorId
+import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorRepository
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
@@ -12,7 +15,11 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/book-role")
-class BookRoleController(private val bookRoleRepository: BookRoleRepository) {
+class BookRoleController(
+    private val bookRoleRepository: BookRoleRepository,
+    private val bookContributorRepository: BookContributorRepository,
+    private val contributorRepository: ContributorRepository
+) {
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllBookRoles(): List<BookRoleResponseDto> {
@@ -73,6 +80,24 @@ class BookRoleController(private val bookRoleRepository: BookRoleRepository) {
         val bookRoleDto = bookRole.toDto()
         bookRoleRepository.delete(bookRole)
         return bookRoleDto
+    }
+
+    @GetMapping("/contributor/{contributorId}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllBookRolesOfContributor(@PathVariable(name = "contributorId") contributorId: String): List<BookRoleResponseDto> {
+        val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
+        val bookContributors = bookContributorRepository.findByContributorId(contributor.id)
+        val bookRoles: ArrayList<BookRole> = ArrayList()
+        for (bookContributor in bookContributors) {
+            bookRoles.add(
+                bookRoleRepository.findByBookContributorsId(bookContributor.id) ?: throw ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Requested book role not found"
+                )
+            )
+        }
+        return bookRoles.map { it.toDto() }
     }
 
     @GetMapping("/search/{query}")

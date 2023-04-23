@@ -89,6 +89,7 @@ User-specific:
 - [x] Get a specific book role: GET /api/book-role/{bookRoleId} ROLE_USER
 - [x] Update a specific book role: PUT /api/book-role/{bookRoleId} ROLE_EDITOR
 - [x] Delete a specific book role: DELETE /api/book-role/{bookRoleId} ROLE_EDITOR
+- [x] Get all book roles of contributor: GET /api/book-role/contributor/{contributorId} ROLE_USER
 - [x] Get all book roles of search query: GET /api/book-role/search/{query} ROLE_USER
 
 ### Contributor
@@ -151,6 +152,7 @@ User-specific:
 - [x] Get a specific movies role: GET /api/movie-role/{movieRoleId} ROLE_USER
 - [x] Update a specific movies role: PUT /api/movie-role/{movieRoleId} ROLE_EDITOR
 - [x] Delete a specific movies role: DELETE /api/movie-role/{movieRoleId} ROLE_EDITOR
+- [x] Get all movie roles of contributor: GET /api/movie-role/contributor/{contributorId} ROLE_USER
 - [x] Get all movie roles of search query: GET /api/movie-role/search/{query} ROLE_USER
 
 ### Publishing house
