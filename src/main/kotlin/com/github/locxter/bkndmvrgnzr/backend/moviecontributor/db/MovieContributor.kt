@@ -18,7 +18,12 @@ data class MovieContributor(
     @ManyToOne
     @JoinColumn(name = "movie_role_id")
     val movieRole: MovieRole,
-    @ManyToMany(mappedBy = "movieContributors")
+    @ManyToMany
+    @JoinTable(
+        name = "movie_movie_contributor",
+        joinColumns = [JoinColumn(name = "movie_contributor_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")]
+    )
     val movies: List<Movie> = ArrayList(),
 ) {
     fun toDto(): MovieContributorResponseDto = MovieContributorResponseDto(

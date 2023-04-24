@@ -18,7 +18,12 @@ data class BookContributor(
     @ManyToOne
     @JoinColumn(name = "book_role_id")
     val bookRole: BookRole = BookRole(),
-    @ManyToMany(mappedBy = "bookContributors")
+    @ManyToMany
+    @JoinTable(
+        name = "book_book_contributor",
+        joinColumns = [JoinColumn(name = "book_contributor_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")]
+    )
     val books: List<Book> = ArrayList(),
 ) {
     fun toDto(): BookContributorResponseDto = BookContributorResponseDto(

@@ -3,8 +3,6 @@ package com.github.locxter.bkndmvrgnzr.backend.role.db
 import com.github.locxter.bkndmvrgnzr.backend.role.api.RoleResponseDto
 import com.github.locxter.bkndmvrgnzr.backend.user.db.User
 import jakarta.persistence.*
-import org.hibernate.annotations.OnDelete
-import org.hibernate.annotations.OnDeleteAction
 
 @Entity
 data class Role(
@@ -14,8 +12,12 @@ data class Role(
     @Enumerated(EnumType.STRING)
     @Column(unique = true)
     val type: ERole = ERole.ROLE_USER,
-    @ManyToMany(mappedBy = "roles")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany
+    @JoinTable(
+        name = "user_role",
+        joinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
+    )
     val users: List<User> = ArrayList()
 ) {
     fun toDto(): RoleResponseDto = RoleResponseDto(

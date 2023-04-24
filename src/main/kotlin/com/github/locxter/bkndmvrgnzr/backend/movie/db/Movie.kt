@@ -6,8 +6,6 @@ import com.github.locxter.bkndmvrgnzr.backend.movie.api.MovieResponseDto
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributor
 import com.github.locxter.bkndmvrgnzr.backend.user.db.User
 import jakarta.persistence.*
-import org.hibernate.annotations.OnDelete
-import org.hibernate.annotations.OnDeleteAction
 
 @Entity
 data class Movie(
@@ -19,22 +17,26 @@ data class Movie(
     val year: Int = 0,
     val playTime: Int = 0,
     val ageRestriction: Int = 0,
-    @ManyToMany(cascade = [CascadeType.ALL])
+    @ManyToMany
     @JoinTable(
         name = "movie_genre",
         joinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")],
         inverseJoinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")]
     )
     val genres: List<Genre> = ArrayList(),
-    @ManyToMany(cascade = [CascadeType.ALL])
+    @ManyToMany
     @JoinTable(
         name = "movie_movie_contributor",
         joinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")],
         inverseJoinColumns = [JoinColumn(name = "movie_contributor_id", referencedColumnName = "id")]
     )
     val movieContributors: List<MovieContributor> = ArrayList(),
-    @ManyToMany(mappedBy = "movies")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany
+    @JoinTable(
+        name = "user_movie",
+        joinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")],
+        inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
+    )
     val users: List<User> = ArrayList(),
 ) {
     fun toDto(): MovieResponseDto = MovieResponseDto(

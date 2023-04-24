@@ -7,8 +7,6 @@ import com.github.locxter.bkndmvrgnzr.backend.genre.db.Genre
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouse
 import com.github.locxter.bkndmvrgnzr.backend.user.db.User
 import jakarta.persistence.*
-import org.hibernate.annotations.OnDelete
-import org.hibernate.annotations.OnDeleteAction
 
 @Entity
 data class Book(
@@ -23,22 +21,26 @@ data class Book(
     @ManyToOne
     @JoinColumn(name = "publishing_house_id")
     val publishingHouse: PublishingHouse = PublishingHouse(),
-    @ManyToMany(cascade = [CascadeType.ALL])
+    @ManyToMany
     @JoinTable(
         name = "book_genre",
         joinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")],
         inverseJoinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")]
     )
     val genres: List<Genre> = ArrayList(),
-    @ManyToMany(cascade = [CascadeType.ALL])
+    @ManyToMany
     @JoinTable(
         name = "book_book_contributor",
         joinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")],
         inverseJoinColumns = [JoinColumn(name = "book_contributor_id", referencedColumnName = "id")]
     )
     val bookContributors: List<BookContributor> = ArrayList(),
-    @ManyToMany(mappedBy = "books")
-    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany
+    @JoinTable(
+        name = "user_book",
+        joinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")],
+        inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
+    )
     val users: List<User> = ArrayList(),
 ) {
     fun toDto(): BookResponseDto = BookResponseDto(

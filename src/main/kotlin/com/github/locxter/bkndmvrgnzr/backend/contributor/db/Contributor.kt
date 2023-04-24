@@ -16,9 +16,9 @@ data class Contributor(
     val birthYear: Int = 0,
     val birthMonth: Int = 0,
     val birthDay: Int = 0,
-    @OneToMany(mappedBy = "contributor")
+    @OneToMany(mappedBy = "contributor", cascade = [CascadeType.REMOVE])
     val bookContributors: List<BookContributor> = ArrayList(),
-    @OneToMany(mappedBy = "contributor")
+    @OneToMany(mappedBy = "contributor", cascade = [CascadeType.REMOVE])
     val movieContributors: List<MovieContributor> = ArrayList()
 ) {
     fun toDto(): ContributorResponseDto = ContributorResponseDto(

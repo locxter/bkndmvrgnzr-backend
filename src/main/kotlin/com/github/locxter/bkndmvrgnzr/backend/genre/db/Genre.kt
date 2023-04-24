@@ -12,9 +12,19 @@ data class Genre(
     @AttributeOverride(name = "value", column = Column(name = "id"))
     val id: GenreId = GenreId(),
     val name: String = "",
-    @ManyToMany(mappedBy = "genres")
+    @ManyToMany
+    @JoinTable(
+        name = "book_genre",
+        joinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")]
+    )
     val books: List<Book> = ArrayList(),
-    @ManyToMany(mappedBy = "genres")
+    @ManyToMany
+    @JoinTable(
+        name = "movie_genre",
+        joinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")],
+        inverseJoinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")]
+    )
     val movies: List<Movie> = ArrayList()
 ) {
     fun toDto(): GenreResponseDto = GenreResponseDto(

@@ -14,9 +14,10 @@ import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("/api/movie-role")
-class MovieRoleController(private val movieRoleRepository: MovieRoleRepository,
-                          private val movieContributorRepository: MovieContributorRepository,
-                          private val contributorRepository: ContributorRepository
+class MovieRoleController(
+    private val movieRoleRepository: MovieRoleRepository,
+    private val movieContributorRepository: MovieContributorRepository,
+    private val contributorRepository: ContributorRepository
 ) {
     @GetMapping
     @PreAuthorize("hasRole('USER')")

@@ -24,14 +24,14 @@ data class User(
         inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
     )
     val roles: List<Role> = ArrayList(),
-    @ManyToMany(cascade = [CascadeType.ALL])
+    @ManyToMany
     @JoinTable(
         name = "user_book",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")]
     )
     val books: List<Book> = ArrayList(),
-    @ManyToMany(cascade = [CascadeType.ALL])
+    @ManyToMany
     @JoinTable(
         name = "user_movie",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
