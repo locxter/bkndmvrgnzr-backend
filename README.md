@@ -170,6 +170,7 @@ User-agnostic:
 
 - [x] Get all roles: GET /api/role ROLE_USER
 - [x] Get a specific role: GET /api/role/{roleId} ROLE_USER
+- [x] Get all roles of search query: GET /api/role/search/{query} ROLE_USER
 
 User-specific:
 

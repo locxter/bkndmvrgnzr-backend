@@ -29,6 +29,33 @@ class RoleController(private val roleRepository: RoleRepository, private val use
         return role.toDto()
     }
 
+    @GetMapping("/search/{query}")
+    @PreAuthorize("hasRole('USER')")
+    fun getAllRolesOfSearchQuery(@PathVariable(name = "query") query: String): List<RoleResponseDto> {
+        val roles = roleRepository.findAll(Sort.by(Sort.Direction.ASC, "type"))
+        val iterator = roles.iterator()
+        while (iterator.hasNext()) {
+            val role = iterator.next()
+            var containsQuery = false
+            if (role.type.name.contains(query, true)) {
+                containsQuery = true
+            } else {
+                for (user in role.users) {
+                    if (user.username.contains(query, true) || user.firstName.contains(query, true) ||
+                        user.lastName.contains(query, true)
+                    ) {
+                        containsQuery = true
+                        break
+                    }
+                }
+            }
+            if (!containsQuery) {
+                iterator.remove()
+            }
+        }
+        return roles.map { it.toDto() }
+    }
+
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER')")
     fun getAllRolesOfUser(authentication: Authentication): List<RoleResponseDto> {

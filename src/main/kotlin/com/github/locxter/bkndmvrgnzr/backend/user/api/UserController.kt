@@ -78,7 +78,7 @@ class UserController(
         )
         if ((userUpdateDto.username.isNotBlank() && userUpdateDto.username != user.username &&
                     (userUpdateDto.username.length < 4 || userUpdateDto.username.length > 32 ||
-                    userRepository.existsByUsername(userUpdateDto.username)))
+                            userRepository.existsByUsername(userUpdateDto.username)))
         ) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sent user not valid")
         }
@@ -104,7 +104,7 @@ class UserController(
         )
         if ((userUpdateDto.username.isNotBlank() && userUpdateDto.username != user.username &&
                     (userUpdateDto.username.length < 4 || userUpdateDto.username.length > 32 ||
-                    userRepository.existsByUsername(userUpdateDto.username)))
+                            userRepository.existsByUsername(userUpdateDto.username)))
         ) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sent user not valid")
         }
