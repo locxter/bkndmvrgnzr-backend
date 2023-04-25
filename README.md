@@ -186,6 +186,8 @@ User-specific:
 - [x] Create a user: POST /api/user
 - [x] Update user: PUT /api/user ROLE_USER
 - [x] Update a specific user: PUT /api/user/{userId} ROLE_ADMIN
+- [x] Update password: PUT /api/user/password ROLE_USER
+- [x] Update a specific user's password: PUT /api/user/{userId}/password ROLE_ADMIN
 - [x] Delete user: DELETE /api/user ROLE_USER
 - [x] Delete a specific user: DELETE /api/user/{userId} ROLE_ADMIN
 - [x] Get all users of search query: GET /api/user/search/{query}  ROLE_ADMIN

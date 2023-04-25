@@ -76,15 +76,14 @@ class UserController(
             HttpStatus.NOT_FOUND,
             "Requested user not found"
         )
-        if ((userUpdateDto.username.isNotBlank() && (userUpdateDto.username.length < 4 || userUpdateDto.username.length > 32 ||
-                    userRepository.existsByUsername(userUpdateDto.username))) ||
-            (userUpdateDto.password.isNotEmpty() && (userUpdateDto.password.length < 8 || userUpdateDto.password.length > 64))
+        if ((userUpdateDto.username.isNotBlank() && userUpdateDto.username != user.username &&
+                    (userUpdateDto.username.length < 4 || userUpdateDto.username.length > 32 ||
+                    userRepository.existsByUsername(userUpdateDto.username)))
         ) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sent user not valid")
         }
         val updatedUser = user.copy(
             username = userUpdateDto.username.ifBlank { user.username },
-            password = if (userUpdateDto.password.isNotBlank()) Password(userUpdateDto.password) else user.password,
             firstName = userUpdateDto.firstName.ifBlank { user.firstName },
             lastName = userUpdateDto.lastName.ifBlank { user.lastName },
         )
@@ -103,17 +102,62 @@ class UserController(
             HttpStatus.NOT_FOUND,
             "Requested user not found"
         )
-        if ((userUpdateDto.username.isNotBlank() && (userUpdateDto.username.length < 4 || userUpdateDto.username.length > 32 ||
-                    userRepository.existsByUsername(userUpdateDto.username))) ||
-            (userUpdateDto.password.isNotEmpty() && (userUpdateDto.password.length < 8 || userUpdateDto.password.length > 64))
+        if ((userUpdateDto.username.isNotBlank() && userUpdateDto.username != user.username &&
+                    (userUpdateDto.username.length < 4 || userUpdateDto.username.length > 32 ||
+                    userRepository.existsByUsername(userUpdateDto.username)))
         ) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sent user not valid")
         }
         val updatedUser = user.copy(
             username = userUpdateDto.username.ifBlank { user.username },
-            password = if (userUpdateDto.password.isNotBlank()) Password(userUpdateDto.password) else user.password,
             firstName = userUpdateDto.firstName.ifBlank { user.firstName },
             lastName = userUpdateDto.lastName.ifBlank { user.lastName },
+        )
+        userRepository.save(updatedUser)
+        return updatedUser.toDto()
+    }
+
+    @PutMapping("/password")
+    @PreAuthorize("hasRole('USER')")
+    fun updatePassword(
+        authentication: Authentication,
+        @RequestBody passwordUpdateDto: PasswordUpdateDto
+    ): UserResponseDto {
+        val user = userRepository.findByUsername(authentication.name) ?: throw ResponseStatusException(
+            HttpStatus.NOT_FOUND,
+            "Requested user not found"
+        )
+        if (!user.password.matches(passwordUpdateDto.password) ||
+            (passwordUpdateDto.newPassword.isNotEmpty() && (passwordUpdateDto.newPassword.length < 8 ||
+                    passwordUpdateDto.newPassword.length > 64)) ||
+            passwordUpdateDto.newPassword != passwordUpdateDto.confirmNewPassword
+        ) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sent password update not valid")
+        }
+        val updatedUser = user.copy(
+            password = Password(passwordUpdateDto.newPassword),
+        )
+        userRepository.save(updatedUser)
+        return updatedUser.toDto()
+    }
+
+    @PutMapping("/{userId}/password")
+    @PreAuthorize("hasRole('ADMIN')")
+    fun updateSpecificUsersPassword(
+        authentication: Authentication,
+        @PathVariable(name = "userId") userId: String,
+        @RequestBody passwordUpdateAdminDto: PasswordUpdateAdminDto
+    ): UserResponseDto {
+        val user = userRepository.findById(UserId(userId)).orElse(null)
+            ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
+        if ((passwordUpdateAdminDto.newPassword.isNotEmpty() && (passwordUpdateAdminDto.newPassword.length < 8 ||
+                    passwordUpdateAdminDto.newPassword.length > 64)) ||
+            passwordUpdateAdminDto.newPassword != passwordUpdateAdminDto.confirmNewPassword
+        ) {
+            throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sent password update not valid")
+        }
+        val updatedUser = user.copy(
+            password = Password(passwordUpdateAdminDto.newPassword),
         )
         userRepository.save(updatedUser)
         return updatedUser.toDto()
@@ -144,14 +188,11 @@ class UserController(
     fun deleteSpecificUser(
         authentication: Authentication,
         @PathVariable(name = "userId") userId: String,
-        @RequestBody userDeleteDto: UserDeleteDto
+        @RequestBody userDeleteAdminDto: UserDeleteAdminDto
     ): UserResponseDto {
         val user = userRepository.findById(UserId(userId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
-        if (userDeleteDto.username != user.username || userDeleteDto.password != userDeleteDto.confirmPassword || !user.password.matches(
-                userDeleteDto.password
-            )
-        ) {
+        if (userDeleteAdminDto.username != user.username) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sent user deletion not valid")
         }
         val userDto = user.toDto()
