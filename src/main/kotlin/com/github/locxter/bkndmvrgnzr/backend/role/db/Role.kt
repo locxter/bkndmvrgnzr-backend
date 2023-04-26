@@ -22,6 +22,6 @@ data class Role(
 ) {
     fun toDto(): RoleResponseDto = RoleResponseDto(
         id.value,
-        type
+        type.name
     )
 }

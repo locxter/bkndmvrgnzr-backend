@@ -4,5 +4,5 @@ import com.github.locxter.bkndmvrgnzr.backend.role.db.ERole
 
 data class RoleResponseDto(
     val id: String = "",
-    val type: ERole = ERole.ROLE_USER
+    val type: String = ERole.ROLE_USER.name
 )
