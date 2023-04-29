@@ -30,7 +30,7 @@ data class MovieContributor(
         id.value,
         contributor.toBriefDto(),
         movieRole.toBriefDto(),
-        movies.sortedBy { it.isan.value }.map { it.toBriefDto() }
+        movies.sortedBy { it.title }.map { it.toBriefDto() }
     )
 
     fun toBriefDto(): MovieContributorResponseBriefDto = MovieContributorResponseBriefDto(

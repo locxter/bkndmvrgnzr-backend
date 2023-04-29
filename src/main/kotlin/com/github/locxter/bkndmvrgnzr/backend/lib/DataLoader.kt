@@ -28,21 +28,14 @@ import org.springframework.stereotype.Component
 
 @Component
 class DataLoader(
-    private val bookRepository: BookRepository,
-    private val bookContributorRepository: BookContributorRepository,
     private val bookRoleRepository: BookRoleRepository,
-    private val contributorRepository: ContributorRepository,
     private val genreRepository: GenreRepository,
-    private val movieRepository: MovieRepository,
-    private val movieContributorRepository: MovieContributorRepository,
     private val movieRoleRepository: MovieRoleRepository,
-    private val publishingHouseRepository: PublishingHouseRepository,
     private val roleRepository: RoleRepository,
     private val userRepository: UserRepository
 ) {
 
     fun loadData() {
-        // Needed data
         val bookRoleAuthor = bookRoleRepository.save<BookRole>(BookRole(name = "Author"))
         val bookRoleTranslator = bookRoleRepository.save<BookRole>(BookRole(name = "Translator"))
         val bookRoleEditor = bookRoleRepository.save<BookRole>(BookRole(name = "Editor"))
@@ -95,97 +88,6 @@ class DataLoader(
                 username = "admin",
                 password = Password("password"),
                 roles = roleRepository.findAll()
-            )
-        )
-
-        // Test data
-        val contributorHansRosling = contributorRepository.save(
-            Contributor(
-                firstName = "Hans",
-                lastName = "Rosling",
-                birthYear = 1948,
-                birthMonth = 7,
-                birthDay = 27,
-            )
-        )
-        val contributorUrsulaPoznanski = contributorRepository.save(
-            Contributor(
-                firstName = "Ursula",
-                lastName = "Poznanski",
-                birthYear = 1968,
-                birthMonth = 10,
-                birthDay = 30,
-            )
-        )
-        val contributorAndreasBrandhorst = contributorRepository.save(
-            Contributor(
-                firstName = "Andreas",
-                lastName = "Brandhorst",
-                birthYear = 1956,
-                birthMonth = 5,
-                birthDay = 26,
-            )
-        )
-        val bookContributorHansRoslingAuthor = bookContributorRepository.save(
-            BookContributor(
-                contributor = contributorHansRosling,
-                bookRole = bookRoleAuthor
-            )
-        )
-        val bookContributorAndreasBrandhorstAuthor = bookContributorRepository.save(
-            BookContributor(
-                contributor = contributorAndreasBrandhorst,
-                bookRole = bookRoleAuthor
-            )
-        )
-        val bookContributorAndreasBrandhorstTranslator = bookContributorRepository.save(
-            BookContributor(
-                contributor = contributorAndreasBrandhorst,
-                bookRole = bookRoleTranslator
-            )
-        )
-        val bookContributorUrsulaPoznanskiEditor = bookContributorRepository.save(
-            BookContributor(
-                contributor = contributorUrsulaPoznanski,
-                bookRole = bookRoleEditor
-            )
-        )
-        val publishingHouseUllstein = publishingHouseRepository.save(
-            PublishingHouse(
-                name = "Ullstein Taschenbuch Verlag",
-                country = "Germany",
-                city = "Berlin"
-            )
-        )
-        val bookFactfulness = bookRepository.save(
-            Book(
-                isbn = Isbn("978-3-548-06041-5"),
-                title = "Factfulness",
-                subtitle = "Wie wir lernen, die Welt so zu sehen, wie sie wirklich ist",
-                description = "Some description",
-                year = 2017,
-                pages = 304,
-                publishingHouse = publishingHouseUllstein,
-                genres = arrayListOf(genreHistory, genreScienceFiction),
-                bookContributors = arrayListOf(
-                    bookContributorHansRoslingAuthor,
-                    bookContributorAndreasBrandhorstTranslator
-                )
-            )
-        )
-        val bookMyShit = bookRepository.save(
-            Book(
-                isbn = Isbn("978-3-548-12345-5"),
-                title = "My shit",
-                subtitle = "My shitty subtitle",
-                year = 2023,
-                pages = 314,
-                publishingHouse = publishingHouseUllstein,
-                genres = arrayListOf(genreAction, genreScienceFiction),
-                bookContributors = arrayListOf(
-                    bookContributorAndreasBrandhorstAuthor,
-                    bookContributorUrsulaPoznanskiEditor
-                )
             )
         )
     }

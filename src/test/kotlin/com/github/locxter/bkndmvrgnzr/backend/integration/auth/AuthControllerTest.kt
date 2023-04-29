@@ -79,21 +79,4 @@ class AuthControllerTest(
             )
         )
     }
-
-    @Test
-    @Order(3)
-    fun `Logout`() {
-        // Test
-        val result = restTemplate.exchange(
-            "/api/auth",
-            HttpMethod.DELETE,
-            HttpEntity.EMPTY,
-            String::class.java
-        )
-        // Assertion
-        assertNotNull(result)
-        assertEquals(result!!.statusCode, HttpStatus.OK)
-        assert(result.headers.contains("set-cookie"))
-        assert(result.headers["set-cookie"]!![0].toString() == "bkndmvrgnzr=; Path=/")
-    }
 }

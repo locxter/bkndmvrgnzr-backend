@@ -2,7 +2,7 @@
 
 ## Overview
 
-> Please keep in mind that this is an **early work in progress**.
+> Please keep in mind that this is a **work in progress**.
 
 This repository includes the backend of my simple and open source book and movie organizer project bkndmvrgnzr (inofficially also BAMO), which I started building during my work placement at [CEWE](https://www.cewe.de/). It has the following features:
 
@@ -24,7 +24,7 @@ work properly:
 
 ## How to use it
 
-First secure the mariaDB installation via `sudo mysql_secure_installation` (choose `Enter`, then `N` twice and finally `Y` for all following questions), login to mariaDB via `sudo mysql -u root`, create the needed database via `create database bkndmvrgnzr;` as well as user via `grant all privileges on bkndmvrgnzr.* to 'bkndmvrgnzr' identified by 'bkndmvrgnzr';`. Then build the JAR via `gradle clean bootJar` and then run it via `java -jar build/libs/bkndmvrgnzr-backend-1.0.jar`.
+First secure the mariaDB installation via `sudo mysql_secure_installation` (choose `Enter`, then `N` twice and finally `Y` for all following questions), login to mariaDB via `sudo mysql -u root`, create the needed database via `create database bkndmvrgnzr;` as well as user via `grant all privileges on bkndmvrgnzr.* to 'bkndmvrgnzr' identified by 'bkndmvrgnzr';`. Then build the JAR via `gradle clean bootJar` and then run it via `java -jar build/libs/bkndmvrgnzr-backend-1.0.jar`. If this is your first setup, you should add the `-i` option to initialize a new database. Alternatively, you can export your database from another instance via `mysqldump -u bkndmvrgnzr -p bkndmvrgnzr > bkndmvrgnzr-dump.sql` and import it to the new instance via `mysql -u bkndmvrgnzr -p bkndmvrgnzr < bkndmvrgnzr-dump.sql`.
 
 ## Data providers
 
