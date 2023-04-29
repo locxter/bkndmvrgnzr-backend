@@ -25,7 +25,14 @@ class BookContributorController(
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllBookContributors(): List<BookContributorResponseDto> {
-        val bookContributors = bookContributorRepository.findAll(Sort.by(Sort.Direction.ASC, "contributor.lastName", "contributor.firstName", "bookRole.name"))
+        val bookContributors = bookContributorRepository.findAll(
+            Sort.by(
+                Sort.Direction.ASC,
+                "contributor.lastName",
+                "contributor.firstName",
+                "bookRole.name"
+            )
+        )
         return bookContributors.map { it.toDto() }
     }
 
@@ -117,14 +124,24 @@ class BookContributorController(
         val bookRole = bookRoleRepository.findById(BookRoleId(bookRoleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book role not found")
         val bookContributors =
-            bookContributorRepository.findByBookRoleId(bookRole.id, Sort.by(Sort.Direction.ASC, "contributor.lastName", "contributor.firstName"))
+            bookContributorRepository.findByBookRoleId(
+                bookRole.id,
+                Sort.by(Sort.Direction.ASC, "contributor.lastName", "contributor.firstName")
+            )
         return bookContributors.map { it.toDto() }
     }
 
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllBookContributorsOfSearchQuery(@PathVariable(name = "query") query: String): List<BookContributorResponseDto> {
-        val bookContributors = bookContributorRepository.findAll(Sort.by(Sort.Direction.ASC, "contributor.lastName", "contributor.firstName", "bookRole.name"))
+        val bookContributors = bookContributorRepository.findAll(
+            Sort.by(
+                Sort.Direction.ASC,
+                "contributor.lastName",
+                "contributor.firstName",
+                "bookRole.name"
+            )
+        )
         val iterator = bookContributors.iterator()
         while (iterator.hasNext()) {
             val bookContributor = iterator.next()

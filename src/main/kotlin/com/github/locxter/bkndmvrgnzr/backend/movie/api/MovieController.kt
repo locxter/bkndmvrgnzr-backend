@@ -158,7 +158,8 @@ class MovieController(
         val movieContributor =
             movieContributorRepository.findById(MovieContributorId(movieContributorId)).orElse(null)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie contributor not found")
-        val movies = movieRepository.findByMovieContributorsId(movieContributor.id, Sort.by(Sort.Direction.ASC, "title"))
+        val movies =
+            movieRepository.findByMovieContributorsId(movieContributor.id, Sort.by(Sort.Direction.ASC, "title"))
         return movies.map { it.toDto() }
     }
 

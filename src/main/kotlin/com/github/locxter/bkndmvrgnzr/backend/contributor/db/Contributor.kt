@@ -28,8 +28,10 @@ data class Contributor(
         birthYear,
         birthMonth,
         birthDay,
-        bookContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.bookRole.name }.map { it.toBriefDto() },
-        movieContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.movieRole.name }.map { it.toBriefDto() }
+        bookContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.bookRole.name }
+            .map { it.toBriefDto() },
+        movieContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.movieRole.name }
+            .map { it.toBriefDto() }
     )
 
     fun toBriefDto(): ContributorResponseBriefDto = ContributorResponseBriefDto(

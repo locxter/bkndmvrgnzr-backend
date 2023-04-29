@@ -180,7 +180,8 @@ class BookController(
     fun getAllBooksOfPublishingHouse(@PathVariable(name = "publishingHouseId") publishingHouseId: String): List<BookResponseDto> {
         val publishingHouse = publishingHouseRepository.findById(PublishingHouseId(publishingHouseId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested publishing house not found")
-        val books = bookRepository.findByPublishingHouseId(publishingHouse.id, Sort.by(Sort.Direction.ASC, "title", "subtitle"))
+        val books =
+            bookRepository.findByPublishingHouseId(publishingHouse.id, Sort.by(Sort.Direction.ASC, "title", "subtitle"))
         return books.map { it.toDto() }
     }
 
@@ -189,7 +190,10 @@ class BookController(
     fun getAllBooksOfBookContributor(@PathVariable(name = "bookContributorId") bookContributorId: String): List<BookResponseDto> {
         val bookContributor = bookContributorRepository.findById(BookContributorId(bookContributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book contributor not found")
-        val books = bookRepository.findByBookContributorsId(bookContributor.id, Sort.by(Sort.Direction.ASC, "title", "subtitle"))
+        val books = bookRepository.findByBookContributorsId(
+            bookContributor.id,
+            Sort.by(Sort.Direction.ASC, "title", "subtitle")
+        )
         return books.map { it.toDto() }
     }
 
@@ -203,7 +207,7 @@ class BookController(
         for (bookContributor in bookContributors) {
             books.addAll(bookRepository.findByBookContributorsId(bookContributor.id))
         }
-        books.sortBy { it.title + it .subtitle }
+        books.sortBy { it.title + it.subtitle }
         return books.map { it.toDto() }
     }
 
@@ -316,7 +320,8 @@ class BookController(
             HttpStatus.NOT_FOUND,
             "Requested genre not found"
         )
-        val books = bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+        val books =
+            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             val book = iterator.next()
@@ -342,7 +347,8 @@ class BookController(
                 HttpStatus.NOT_FOUND,
                 "Requested publishing house not found"
             )
-        val books = bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+        val books =
+            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             val book = iterator.next()
@@ -365,7 +371,8 @@ class BookController(
         )
         val bookContributor = bookContributorRepository.findById(BookContributorId(bookContributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book contributor not found")
-        val books = bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+        val books =
+            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             val book = iterator.next()
@@ -389,7 +396,8 @@ class BookController(
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val bookContributors = bookContributorRepository.findByContributorId(contributor.id)
-        val books = bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+        val books =
+            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             val book = iterator.next()
@@ -417,7 +425,8 @@ class BookController(
             HttpStatus.NOT_FOUND,
             "Requested user not found"
         )
-        val books = bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+        val books =
+            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             var containsQuery = false

@@ -47,7 +47,8 @@ data class Movie(
         playTime,
         ageRestriction,
         genres.sortedBy { it.name }.map { it.toBriefDto() },
-        movieContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.movieRole.name }.map { it.toBriefDto() }
+        movieContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.movieRole.name }
+            .map { it.toBriefDto() }
     )
 
     fun toBriefDto(): MovieResponseBriefDto = MovieResponseBriefDto(

@@ -86,7 +86,10 @@ class MovieRoleController(
     fun getAllMovieRolesOfContributor(@PathVariable(name = "contributorId") contributorId: String): List<MovieRoleResponseDto> {
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
-        val movieContributors = movieContributorRepository.findByContributorId(contributor.id, Sort.by(Sort.Direction.ASC, "movieRole.name"))
+        val movieContributors = movieContributorRepository.findByContributorId(
+            contributor.id,
+            Sort.by(Sort.Direction.ASC, "movieRole.name")
+        )
         val movieRoles: ArrayList<MovieRole> = ArrayList()
         for (movieContributor in movieContributors) {
             movieRoles.add(

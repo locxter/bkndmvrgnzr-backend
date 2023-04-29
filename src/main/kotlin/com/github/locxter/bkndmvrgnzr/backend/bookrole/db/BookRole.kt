@@ -17,7 +17,8 @@ data class BookRole(
     fun toDto(): BookRoleResponseDto = BookRoleResponseDto(
         id.value,
         name,
-        bookContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.bookRole.name }.map { it.toBriefDto() }
+        bookContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.bookRole.name }
+            .map { it.toBriefDto() }
     )
 
     fun toBriefDto(): BookRoleResponseBriefDto = BookRoleResponseBriefDto(

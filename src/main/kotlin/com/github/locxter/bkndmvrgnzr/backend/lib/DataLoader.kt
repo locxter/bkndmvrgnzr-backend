@@ -1,22 +1,11 @@
 package com.github.locxter.bkndmvrgnzr.backend.lib
 
-import com.github.locxter.bkndmvrgnzr.backend.book.db.Book
-import com.github.locxter.bkndmvrgnzr.backend.book.db.BookRepository
-import com.github.locxter.bkndmvrgnzr.backend.book.db.Isbn
-import com.github.locxter.bkndmvrgnzr.backend.bookcontributor.db.BookContributor
-import com.github.locxter.bkndmvrgnzr.backend.bookcontributor.db.BookContributorRepository
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRole
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRoleRepository
-import com.github.locxter.bkndmvrgnzr.backend.contributor.db.Contributor
-import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorRepository
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.Genre
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.GenreRepository
-import com.github.locxter.bkndmvrgnzr.backend.movie.db.MovieRepository
-import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributorRepository
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRole
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleRepository
-import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouse
-import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouseRepository
 import com.github.locxter.bkndmvrgnzr.backend.role.db.ERole
 import com.github.locxter.bkndmvrgnzr.backend.role.db.Role
 import com.github.locxter.bkndmvrgnzr.backend.role.db.RoleRepository
