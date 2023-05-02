@@ -6,6 +6,7 @@ import com.github.locxter.bkndmvrgnzr.backend.bookcontributor.api.BookContributo
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRole
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.Contributor
 import jakarta.persistence.*
+import org.springframework.data.domain.Sort
 
 @Entity
 data class BookContributor(
@@ -30,7 +31,7 @@ data class BookContributor(
         id.value,
         contributor.toBriefDto(),
         bookRole.toBriefDto(),
-        books.sortedBy { it.title + it.subtitle }.map { it.toBriefDto() }
+        books.sortedWith(Book).map { it.toBriefDto() }
     )
 
     fun toBriefDto(): BookContributorResponseBriefDto = BookContributorResponseBriefDto(
@@ -38,4 +39,21 @@ data class BookContributor(
         contributor.toBriefDto(),
         bookRole.toBriefDto()
     )
+
+    companion object : Comparator<BookContributor> {
+        override fun compare(o1: BookContributor, o2: BookContributor): Int {
+            val s1 = o1.contributor.lastName + o1.contributor.firstName + o1.bookRole.name
+            val s2 = o2.contributor.lastName + o2.contributor.firstName + o2.bookRole.name
+            return s1.compareTo(s2)
+        }
+
+        fun getSort() : Sort {
+            return Sort.by(
+                Sort.Direction.ASC,
+                "contributor.lastName",
+                "contributor.firstName",
+                "bookRole.name"
+            )
+        }
+    }
 }

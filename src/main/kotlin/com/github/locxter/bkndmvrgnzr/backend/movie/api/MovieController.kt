@@ -31,7 +31,7 @@ class MovieController(
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllMovies(): List<MovieResponseDto> {
-        val movies = movieRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
+        val movies = movieRepository.findAll(Movie.getSort())
         return movies.map { it.toDto() }
     }
 
@@ -148,7 +148,7 @@ class MovieController(
             HttpStatus.NOT_FOUND,
             "Requested genre not found"
         )
-        val movies = movieRepository.findByGenresId(genre.id, Sort.by(Sort.Direction.ASC, "title"))
+        val movies = movieRepository.findByGenresId(genre.id, Movie.getSort())
         return movies.map { it.toDto() }
     }
 
@@ -159,7 +159,7 @@ class MovieController(
             movieContributorRepository.findById(MovieContributorId(movieContributorId)).orElse(null)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie contributor not found")
         val movies =
-            movieRepository.findByMovieContributorsId(movieContributor.id, Sort.by(Sort.Direction.ASC, "title"))
+            movieRepository.findByMovieContributorsId(movieContributor.id, Movie.getSort())
         return movies.map { it.toDto() }
     }
 
@@ -173,14 +173,14 @@ class MovieController(
         for (movieContributor in movieContributors) {
             movies.addAll(movieRepository.findByMovieContributorsId(movieContributor.id))
         }
-        movies.sortBy { it.title }
+        movies.sortWith(Movie)
         return movies.map { it.toDto() }
     }
 
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllMoviesOfSearchQuery(@PathVariable(name = "query") query: String): List<MovieResponseDto> {
-        val movies = movieRepository.findAll(Sort.by(Sort.Direction.ASC, "title"))
+        val movies = movieRepository.findAll(Movie.getSort())
         val iterator = movies.iterator()
         while (iterator.hasNext()) {
             val movie = iterator.next()
@@ -221,7 +221,7 @@ class MovieController(
             HttpStatus.NOT_FOUND,
             "Requested user not found"
         )
-        val movies = movieRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title"))
+        val movies = movieRepository.findByUsersId(user.id, Movie.getSort())
         return movies.map { it.toDto() }
     }
 
@@ -237,10 +237,10 @@ class MovieController(
         )
         val movie = movieRepository.findById(Isan(isan)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie not found")
-        val userMovies = user.movies.sortedBy { it.title }.toMutableList()
+        val userMovies = user.movies.sortedWith(Movie).toMutableList()
         if (!userMovies.contains(movie)) {
             userMovies.add(movie)
-            userMovies.sortBy { it.title }
+            userMovies.sortWith(Movie)
             val updatedUser = user.copy(movies = userMovies)
             userRepository.save(updatedUser)
         }
@@ -259,7 +259,7 @@ class MovieController(
         )
         val movie = movieRepository.findById(Isan(isan)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie not found")
-        val userMovies = user.movies.sortedBy { it.title }.toMutableList()
+        val userMovies = user.movies.sortedWith(Movie).toMutableList()
         if (userMovies.contains(movie)) {
             userMovies.remove(movie)
             val updatedUser = user.copy(movies = userMovies)
@@ -282,7 +282,7 @@ class MovieController(
             HttpStatus.NOT_FOUND,
             "Requested genre not found"
         )
-        val movies = movieRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title")).toMutableList()
+        val movies = movieRepository.findByUsersId(user.id, Movie.getSort()).toMutableList()
         val iterator = movies.iterator()
         while (iterator.hasNext()) {
             val movie = iterator.next()
@@ -306,7 +306,7 @@ class MovieController(
         val movieContributor =
             movieContributorRepository.findById(MovieContributorId(movieContributorId)).orElse(null)
                 ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie contributor not found")
-        val movies = movieRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title")).toMutableList()
+        val movies = movieRepository.findByUsersId(user.id, Movie.getSort()).toMutableList()
         val iterator = movies.iterator()
         while (iterator.hasNext()) {
             val movie = iterator.next()
@@ -330,7 +330,7 @@ class MovieController(
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val movieContributors = movieContributorRepository.findByContributorId(contributor.id)
-        val movies = movieRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title")).toMutableList()
+        val movies = movieRepository.findByUsersId(user.id, Movie.getSort()).toMutableList()
         val iterator = movies.iterator()
         while (iterator.hasNext()) {
             val movie = iterator.next()
@@ -358,7 +358,7 @@ class MovieController(
             HttpStatus.NOT_FOUND,
             "Requested user not found"
         )
-        val movies = movieRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title")).toMutableList()
+        val movies = movieRepository.findByUsersId(user.id, Movie.getSort()).toMutableList()
         val iterator = movies.iterator()
         while (iterator.hasNext()) {
             val movie = iterator.next()

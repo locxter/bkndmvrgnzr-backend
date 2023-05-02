@@ -32,7 +32,7 @@ class UserController(
     @GetMapping("/all")
     @PreAuthorize("hasRole('ADMIN')")
     fun getAllUsers(authentication: Authentication): List<UserResponseDto> {
-        val users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "username"))
+        val users = userRepository.findAll(User.getSort())
         return users.map { it.toDto() }
     }
 
@@ -203,7 +203,7 @@ class UserController(
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllUsersOfSearchQuery(@PathVariable(name = "query") query: String): List<UserResponseDto> {
-        val users = userRepository.findAll(Sort.by(Sort.Direction.ASC, "username"))
+        val users = userRepository.findAll(User.getSort())
         val iterator = users.iterator()
         while (iterator.hasNext()) {
             val user = iterator.next()

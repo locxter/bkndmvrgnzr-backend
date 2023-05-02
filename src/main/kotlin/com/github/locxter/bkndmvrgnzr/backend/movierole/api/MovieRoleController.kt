@@ -22,7 +22,7 @@ class MovieRoleController(
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllMovieRoles(): List<MovieRoleResponseDto> {
-        val movieRoles = movieRoleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val movieRoles = movieRoleRepository.findAll(MovieRole.getSort())
         return movieRoles.map { it.toDto() }
     }
 
@@ -105,7 +105,7 @@ class MovieRoleController(
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllMovieRolesOfSearchQuery(@PathVariable(name = "query") query: String): List<MovieRoleResponseDto> {
-        val movieRoles = movieRoleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val movieRoles = movieRoleRepository.findAll(MovieRole.getSort())
         val iterator = movieRoles.iterator()
         while (iterator.hasNext()) {
             val movieRole = iterator.next()

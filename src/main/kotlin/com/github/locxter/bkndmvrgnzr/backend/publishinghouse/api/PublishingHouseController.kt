@@ -15,7 +15,7 @@ class PublishingHouseController(private val publishingHouseRepository: Publishin
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllPublishingHouses(): List<PublishingHouseResponseDto> {
-        val publishingHouses = publishingHouseRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val publishingHouses = publishingHouseRepository.findAll(PublishingHouse.getSort())
         return publishingHouses.map { it.toDto() }
     }
 
@@ -72,7 +72,7 @@ class PublishingHouseController(private val publishingHouseRepository: Publishin
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllPublishingHousesOfSearchQuery(@PathVariable(name = "query") query: String): List<PublishingHouseResponseDto> {
-        val publishingHouses = publishingHouseRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val publishingHouses = publishingHouseRepository.findAll(PublishingHouse.getSort())
         val iterator = publishingHouses.iterator()
         while (iterator.hasNext()) {
             val publishingHouse = iterator.next()

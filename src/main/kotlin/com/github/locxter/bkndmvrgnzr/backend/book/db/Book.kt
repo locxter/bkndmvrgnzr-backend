@@ -7,6 +7,7 @@ import com.github.locxter.bkndmvrgnzr.backend.genre.db.Genre
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouse
 import com.github.locxter.bkndmvrgnzr.backend.user.db.User
 import jakarta.persistence.*
+import org.springframework.data.domain.Sort
 
 @Entity
 data class Book(
@@ -51,9 +52,8 @@ data class Book(
         year,
         pages,
         publishingHouse.toBriefDto(),
-        genres.sortedBy { it.name }.map { it.toBriefDto() },
-        bookContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.bookRole.name }
-            .map { it.toBriefDto() }
+        genres.sortedWith(Genre).map { it.toBriefDto() },
+        bookContributors.sortedWith(BookContributor).map { it.toBriefDto() }
     )
 
     fun toBriefDto(): BookResponseBriefDto = BookResponseBriefDto(
@@ -65,4 +65,20 @@ data class Book(
         pages,
         publishingHouse.toBriefDto()
     )
+
+    companion object : Comparator<Book> {
+        override fun compare(o1: Book, o2: Book): Int {
+            val s1 = o1.title + o1.subtitle
+            val s2 = o1.title + o1.subtitle
+            return s1.compareTo(s2)
+        }
+
+        fun getSort() : Sort {
+            return Sort.by(
+                Sort.Direction.ASC,
+                "title",
+                "subtitle",
+            )
+        }
+    }
 }

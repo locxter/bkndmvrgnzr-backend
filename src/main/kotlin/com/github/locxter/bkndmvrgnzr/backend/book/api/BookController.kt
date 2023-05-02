@@ -35,7 +35,7 @@ class BookController(
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllBooks(): List<BookResponseDto> {
-        val books = bookRepository.findAll(Sort.by(Sort.Direction.ASC, "title", "subtitle"))
+        val books = bookRepository.findAll(Book.getSort())
         return books.map { it.toDto() }
     }
 
@@ -171,7 +171,7 @@ class BookController(
             HttpStatus.NOT_FOUND,
             "Requested genre not found"
         )
-        val books = bookRepository.findByGenresId(genre.id, Sort.by(Sort.Direction.ASC, "title", "subtitle"))
+        val books = bookRepository.findByGenresId(genre.id, Book.getSort())
         return books.map { it.toDto() }
     }
 
@@ -181,7 +181,7 @@ class BookController(
         val publishingHouse = publishingHouseRepository.findById(PublishingHouseId(publishingHouseId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested publishing house not found")
         val books =
-            bookRepository.findByPublishingHouseId(publishingHouse.id, Sort.by(Sort.Direction.ASC, "title", "subtitle"))
+            bookRepository.findByPublishingHouseId(publishingHouse.id, Book.getSort())
         return books.map { it.toDto() }
     }
 
@@ -192,7 +192,7 @@ class BookController(
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book contributor not found")
         val books = bookRepository.findByBookContributorsId(
             bookContributor.id,
-            Sort.by(Sort.Direction.ASC, "title", "subtitle")
+            Book.getSort()
         )
         return books.map { it.toDto() }
     }
@@ -207,14 +207,14 @@ class BookController(
         for (bookContributor in bookContributors) {
             books.addAll(bookRepository.findByBookContributorsId(bookContributor.id))
         }
-        books.sortBy { it.title + it.subtitle }
+        books.sortWith(Book)
         return books.map { it.toDto() }
     }
 
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllBooksOfSearchQuery(@PathVariable(name = "query") query: String): List<BookResponseDto> {
-        val books = bookRepository.findAll(Sort.by(Sort.Direction.ASC, "title", "subtitle"))
+        val books = bookRepository.findAll(Book.getSort())
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             val book = iterator.next()
@@ -255,7 +255,7 @@ class BookController(
             HttpStatus.NOT_FOUND,
             "Requested user not found"
         )
-        val books = bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle"))
+        val books = bookRepository.findByUsersId(user.id, Book.getSort())
         return books.map { it.toDto() }
     }
 
@@ -273,10 +273,10 @@ class BookController(
             HttpStatus.NOT_FOUND,
             "Requested book not found"
         )
-        val userBooks = user.books.sortedBy { it.title + it.subtitle }.toMutableList()
+        val userBooks = user.books.sortedWith(Book).toMutableList()
         if (!userBooks.contains(book)) {
             userBooks.add(book)
-            userBooks.sortBy { it.title + it.subtitle }
+            userBooks.sortWith(Book)
             val updatedUser = user.copy(books = userBooks)
             userRepository.save(updatedUser)
         }
@@ -297,7 +297,7 @@ class BookController(
             HttpStatus.NOT_FOUND,
             "Requested book not found"
         )
-        val userBooks = user.books.sortedBy { it.title + it.subtitle }.toMutableList()
+        val userBooks = user.books.sortedWith(Book).toMutableList()
         if (userBooks.contains(book)) {
             userBooks.remove(book)
             val updatedUser = user.copy(books = userBooks)
@@ -321,7 +321,7 @@ class BookController(
             "Requested genre not found"
         )
         val books =
-            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+            bookRepository.findByUsersId(user.id, Book.getSort()).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             val book = iterator.next()
@@ -348,7 +348,7 @@ class BookController(
                 "Requested publishing house not found"
             )
         val books =
-            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+            bookRepository.findByUsersId(user.id, Book.getSort()).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             val book = iterator.next()
@@ -372,7 +372,7 @@ class BookController(
         val bookContributor = bookContributorRepository.findById(BookContributorId(bookContributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested book contributor not found")
         val books =
-            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+            bookRepository.findByUsersId(user.id, Book.getSort()).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             val book = iterator.next()
@@ -397,7 +397,7 @@ class BookController(
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val bookContributors = bookContributorRepository.findByContributorId(contributor.id)
         val books =
-            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+            bookRepository.findByUsersId(user.id, Book.getSort()).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             val book = iterator.next()
@@ -426,7 +426,7 @@ class BookController(
             "Requested user not found"
         )
         val books =
-            bookRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "title", "subtitle")).toMutableList()
+            bookRepository.findByUsersId(user.id, Book.getSort()).toMutableList()
         val iterator = books.iterator()
         while (iterator.hasNext()) {
             var containsQuery = false

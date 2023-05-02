@@ -1,11 +1,13 @@
 package com.github.locxter.bkndmvrgnzr.backend.movie.db
 
+import com.github.locxter.bkndmvrgnzr.backend.book.db.Book
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.Genre
 import com.github.locxter.bkndmvrgnzr.backend.movie.api.MovieResponseBriefDto
 import com.github.locxter.bkndmvrgnzr.backend.movie.api.MovieResponseDto
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributor
 import com.github.locxter.bkndmvrgnzr.backend.user.db.User
 import jakarta.persistence.*
+import org.springframework.data.domain.Sort
 
 @Entity
 data class Movie(
@@ -46,9 +48,8 @@ data class Movie(
         year,
         playTime,
         ageRestriction,
-        genres.sortedBy { it.name }.map { it.toBriefDto() },
-        movieContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.movieRole.name }
-            .map { it.toBriefDto() }
+        genres.sortedWith(Genre).map { it.toBriefDto() },
+        movieContributors.sortedWith(MovieContributor).map { it.toBriefDto() }
     )
 
     fun toBriefDto(): MovieResponseBriefDto = MovieResponseBriefDto(
@@ -59,4 +60,19 @@ data class Movie(
         playTime,
         ageRestriction,
     )
+
+    companion object : Comparator<Movie> {
+        override fun compare(o1: Movie, o2: Movie): Int {
+            val s1 = o1.title
+            val s2 = o1.title
+            return s1.compareTo(s2)
+        }
+
+        fun getSort() : Sort {
+            return Sort.by(
+                Sort.Direction.ASC,
+                "title",
+            )
+        }
+    }
 }

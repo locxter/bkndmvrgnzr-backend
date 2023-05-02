@@ -1,5 +1,6 @@
 package com.github.locxter.bkndmvrgnzr.backend.role.api
 
+import com.github.locxter.bkndmvrgnzr.backend.role.db.Role
 import com.github.locxter.bkndmvrgnzr.backend.role.db.RoleId
 import com.github.locxter.bkndmvrgnzr.backend.role.db.RoleRepository
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserId
@@ -17,7 +18,7 @@ class RoleController(private val roleRepository: RoleRepository, private val use
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllRoles(): List<RoleResponseDto> {
-        val roles = roleRepository.findAll(Sort.by(Sort.Direction.ASC, "type"))
+        val roles = roleRepository.findAll(Role.getSort())
         return roles.map { it.toDto() }
     }
 
@@ -32,7 +33,7 @@ class RoleController(private val roleRepository: RoleRepository, private val use
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllRolesOfSearchQuery(@PathVariable(name = "query") query: String): List<RoleResponseDto> {
-        val roles = roleRepository.findAll(Sort.by(Sort.Direction.ASC, "type"))
+        val roles = roleRepository.findAll(Role.getSort())
         val iterator = roles.iterator()
         while (iterator.hasNext()) {
             val role = iterator.next()
@@ -63,7 +64,7 @@ class RoleController(private val roleRepository: RoleRepository, private val use
             HttpStatus.NOT_FOUND,
             "Requested user not found"
         )
-        val roles = roleRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "type"))
+        val roles = roleRepository.findByUsersId(user.id, Role.getSort())
         return roles.map { it.toDto() }
     }
 
@@ -75,7 +76,7 @@ class RoleController(private val roleRepository: RoleRepository, private val use
     ): List<RoleResponseDto> {
         val user = userRepository.findById(UserId(userId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
-        val roles = roleRepository.findByUsersId(user.id, Sort.by(Sort.Direction.ASC, "type"))
+        val roles = roleRepository.findByUsersId(user.id, Role.getSort())
         return roles.map { it.toDto() }
     }
 
@@ -90,10 +91,10 @@ class RoleController(private val roleRepository: RoleRepository, private val use
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
         val role = roleRepository.findById(RoleId(roleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested role not found")
-        val userRoles = user.roles.sortedBy { it.type.name }.toMutableList()
+        val userRoles = user.roles.sortedWith(Role).toMutableList()
         if (!userRoles.contains(role)) {
             userRoles.add(role)
-            userRoles.sortBy { it.type.name }
+            userRoles.sortWith(Role)
             val updatedUser = user.copy(roles = userRoles)
             userRepository.save(updatedUser)
         }
@@ -111,7 +112,7 @@ class RoleController(private val roleRepository: RoleRepository, private val use
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested user not found")
         val role = roleRepository.findById(RoleId(roleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested role not found")
-        val userRoles = user.roles.sortedBy { it.type.name }.toMutableList()
+        val userRoles = user.roles.sortedWith(Role).toMutableList()
         if (userRoles.contains(role)) {
             userRoles.remove(role)
             val updatedUser = user.copy(roles = userRoles)

@@ -5,6 +5,7 @@ import com.github.locxter.bkndmvrgnzr.backend.contributor.api.ContributorRespons
 import com.github.locxter.bkndmvrgnzr.backend.contributor.api.ContributorResponseDto
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributor
 import jakarta.persistence.*
+import org.springframework.data.domain.Sort
 
 @Entity
 data class Contributor(
@@ -28,9 +29,9 @@ data class Contributor(
         birthYear,
         birthMonth,
         birthDay,
-        bookContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.bookRole.name }
+        bookContributors.sortedWith(BookContributor)
             .map { it.toBriefDto() },
-        movieContributors.sortedBy { it.contributor.lastName + it.contributor.firstName + it.movieRole.name }
+        movieContributors.sortedWith(MovieContributor)
             .map { it.toBriefDto() }
     )
 
@@ -42,4 +43,20 @@ data class Contributor(
         birthMonth,
         birthDay,
     )
+
+    companion object : Comparator<Contributor> {
+        override fun compare(o1: Contributor, o2: Contributor): Int {
+            val s1 = o1.lastName + o1.firstName
+            val s2 = o2.lastName + o2.firstName
+            return s1.compareTo(s2)
+        }
+
+        fun getSort() : Sort {
+            return Sort.by(
+                Sort.Direction.ASC,
+                "lastName",
+                "firstName",
+            )
+        }
+    }
 }

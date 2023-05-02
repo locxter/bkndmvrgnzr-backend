@@ -15,7 +15,7 @@ class ContributorController(private val contributorRepository: ContributorReposi
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllContributors(): List<ContributorResponseDto> {
-        val contributors = contributorRepository.findAll(Sort.by(Sort.Direction.ASC, "lastName", "firstName"))
+        val contributors = contributorRepository.findAll(Contributor.getSort())
         return contributors.map { it.toDto() }
     }
 
@@ -83,7 +83,7 @@ class ContributorController(private val contributorRepository: ContributorReposi
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllContributorsOfSearchQuery(@PathVariable(name = "query") query: String): List<ContributorResponseDto> {
-        val contributors = contributorRepository.findAll(Sort.by(Sort.Direction.ASC, "lastName", "firstName"))
+        val contributors = contributorRepository.findAll(Contributor.getSort())
         val iterator = contributors.iterator()
         while (iterator.hasNext()) {
             val contributor = iterator.next()

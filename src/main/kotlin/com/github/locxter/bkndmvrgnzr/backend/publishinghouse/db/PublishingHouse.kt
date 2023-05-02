@@ -1,9 +1,11 @@
 package com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db
 
 import com.github.locxter.bkndmvrgnzr.backend.book.db.Book
+import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRole
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.api.PublishingHouseResponseBriefDto
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.api.PublishingHouseResponseDto
 import jakarta.persistence.*
+import org.springframework.data.domain.Sort
 
 @Entity
 data class PublishingHouse(
@@ -21,7 +23,7 @@ data class PublishingHouse(
         name,
         country,
         city,
-        books.sortedBy { it.title + it.subtitle }.map { it.toBriefDto() }
+        books.sortedWith(Book).map { it.toBriefDto() }
     )
 
     fun toBriefDto(): PublishingHouseResponseBriefDto = PublishingHouseResponseBriefDto(
@@ -30,4 +32,19 @@ data class PublishingHouse(
         country,
         city
     )
+
+    companion object : Comparator<PublishingHouse> {
+        override fun compare(o1: PublishingHouse, o2: PublishingHouse): Int {
+            val s1 = o1.name
+            val s2 = o1.name
+            return s1.compareTo(s2)
+        }
+
+        fun getSort() : Sort {
+            return Sort.by(
+                Sort.Direction.ASC,
+                "name",
+            )
+        }
+    }
 }

@@ -5,6 +5,7 @@ import com.github.locxter.bkndmvrgnzr.backend.movie.db.Movie
 import com.github.locxter.bkndmvrgnzr.backend.role.db.Role
 import com.github.locxter.bkndmvrgnzr.backend.user.api.UserResponseDto
 import jakarta.persistence.*
+import org.springframework.data.domain.Sort
 
 @Entity
 data class User(
@@ -44,9 +45,9 @@ data class User(
         username,
         firstName,
         lastName,
-        roles.sortedBy { it.type.name }.map { it.toDto() },
-        books.sortedBy { it.title + it.subtitle }.map { it.toBriefDto() },
-        movies.sortedBy { it.title }.map { it.toBriefDto() }
+        roles.sortedWith(Role).map { it.toDto() },
+        books.sortedWith(Book).map { it.toBriefDto() },
+        movies.sortedWith(Movie).map { it.toBriefDto() }
     )
 
     fun toBriefDto(): UserResponseDto = UserResponseDto(
@@ -55,4 +56,19 @@ data class User(
         firstName,
         lastName
     )
+
+    companion object : Comparator<User> {
+        override fun compare(o1: User, o2: User): Int {
+            val s1 = o1.username
+            val s2 = o1.username
+            return s1.compareTo(s2)
+        }
+
+        fun getSort() : Sort {
+            return Sort.by(
+                Sort.Direction.ASC,
+                "username",
+            )
+        }
+    }
 }

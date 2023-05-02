@@ -23,7 +23,7 @@ class BookRoleController(
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllBookRoles(): List<BookRoleResponseDto> {
-        val bookRoles = bookRoleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val bookRoles = bookRoleRepository.findAll(BookRole.getSort())
         return bookRoles.map { it.toDto() }
     }
 
@@ -104,7 +104,7 @@ class BookRoleController(
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllBookRolesOfSearchQuery(@PathVariable(name = "query") query: String): List<BookRoleResponseDto> {
-        val bookRoles = bookRoleRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val bookRoles = bookRoleRepository.findAll(BookRole.getSort())
         val iterator = bookRoles.iterator()
         while (iterator.hasNext()) {
             val bookRole = iterator.next()

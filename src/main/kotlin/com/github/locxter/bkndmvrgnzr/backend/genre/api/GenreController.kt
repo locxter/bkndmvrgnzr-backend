@@ -15,7 +15,7 @@ class GenreController(private val genreRepository: GenreRepository) {
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllGenres(): List<GenreResponseDto> {
-        val genres = genreRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val genres = genreRepository.findAll(Genre.getSort())
         return genres.map { it.toDto() }
     }
 
@@ -74,7 +74,7 @@ class GenreController(private val genreRepository: GenreRepository) {
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllGenresOfSearchQuery(@PathVariable(name = "query") query: String): List<GenreResponseDto> {
-        val genres = genreRepository.findAll(Sort.by(Sort.Direction.ASC, "name"))
+        val genres = genreRepository.findAll(Genre.getSort())
         val iterator = genres.iterator()
         while (iterator.hasNext()) {
             val genre = iterator.next()
