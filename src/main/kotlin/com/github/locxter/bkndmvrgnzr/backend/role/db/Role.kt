@@ -1,6 +1,5 @@
 package com.github.locxter.bkndmvrgnzr.backend.role.db
 
-import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRole
 import com.github.locxter.bkndmvrgnzr.backend.role.api.RoleResponseDto
 import com.github.locxter.bkndmvrgnzr.backend.user.db.User
 import jakarta.persistence.*
@@ -34,7 +33,7 @@ data class Role(
             return s1.compareTo(s2)
         }
 
-        fun getSort() : Sort {
+        fun getSort(): Sort {
             return Sort.by(
                 Sort.Direction.ASC,
                 "type",

@@ -1,6 +1,5 @@
 package com.github.locxter.bkndmvrgnzr.backend.movierole.db
 
-import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRole
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributor
 import com.github.locxter.bkndmvrgnzr.backend.movierole.api.MovieRoleResponseBriefDto
 import com.github.locxter.bkndmvrgnzr.backend.movierole.api.MovieRoleResponseDto
@@ -34,7 +33,7 @@ data class MovieRole(
             return s1.compareTo(s2)
         }
 
-        fun getSort() : Sort {
+        fun getSort(): Sort {
             return Sort.by(
                 Sort.Direction.ASC,
                 "name",

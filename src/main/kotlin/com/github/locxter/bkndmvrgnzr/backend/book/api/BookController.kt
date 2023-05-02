@@ -15,7 +15,6 @@ import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouse
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouseId
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouseRepository
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserRepository
-import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication

@@ -73,7 +73,7 @@ data class Book(
             return s1.compareTo(s2)
         }
 
-        fun getSort() : Sort {
+        fun getSort(): Sort {
             return Sort.by(
                 Sort.Direction.ASC,
                 "title",

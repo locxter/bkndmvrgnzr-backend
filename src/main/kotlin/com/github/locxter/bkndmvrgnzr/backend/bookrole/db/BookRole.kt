@@ -1,6 +1,5 @@
 package com.github.locxter.bkndmvrgnzr.backend.bookrole.db
 
-import com.github.locxter.bkndmvrgnzr.backend.book.db.Book
 import com.github.locxter.bkndmvrgnzr.backend.bookcontributor.db.BookContributor
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.api.BookRoleResponseBriefDto
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.api.BookRoleResponseDto
@@ -34,7 +33,7 @@ data class BookRole(
             return s1.compareTo(s2)
         }
 
-        fun getSort() : Sort {
+        fun getSort(): Sort {
             return Sort.by(
                 Sort.Direction.ASC,
                 "name",

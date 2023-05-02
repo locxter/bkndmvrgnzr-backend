@@ -1,6 +1,5 @@
 package com.github.locxter.bkndmvrgnzr.backend.movie.db
 
-import com.github.locxter.bkndmvrgnzr.backend.book.db.Book
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.Genre
 import com.github.locxter.bkndmvrgnzr.backend.movie.api.MovieResponseBriefDto
 import com.github.locxter.bkndmvrgnzr.backend.movie.api.MovieResponseDto
@@ -68,7 +67,7 @@ data class Movie(
             return s1.compareTo(s2)
         }
 
-        fun getSort() : Sort {
+        fun getSort(): Sort {
             return Sort.by(
                 Sort.Direction.ASC,
                 "title",

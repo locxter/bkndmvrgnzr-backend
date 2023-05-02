@@ -12,7 +12,6 @@ import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContribut
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributorId
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributorRepository
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserRepository
-import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication

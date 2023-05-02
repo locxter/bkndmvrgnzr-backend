@@ -1,7 +1,6 @@
 package com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db
 
 import com.github.locxter.bkndmvrgnzr.backend.book.db.Book
-import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRole
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.api.PublishingHouseResponseBriefDto
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.api.PublishingHouseResponseDto
 import jakarta.persistence.*
@@ -40,7 +39,7 @@ data class PublishingHouse(
             return s1.compareTo(s2)
         }
 
-        fun getSort() : Sort {
+        fun getSort(): Sort {
             return Sort.by(
                 Sort.Direction.ASC,
                 "name",

@@ -5,7 +5,6 @@ import com.github.locxter.bkndmvrgnzr.backend.role.db.RoleId
 import com.github.locxter.bkndmvrgnzr.backend.role.db.RoleRepository
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserId
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserRepository
-import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication

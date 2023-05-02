@@ -3,7 +3,6 @@ package com.github.locxter.bkndmvrgnzr.backend.genre.api
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.Genre
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.GenreId
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.GenreRepository
-import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*

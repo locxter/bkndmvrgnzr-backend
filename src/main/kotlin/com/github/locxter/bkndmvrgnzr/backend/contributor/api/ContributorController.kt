@@ -3,7 +3,6 @@ package com.github.locxter.bkndmvrgnzr.backend.contributor.api
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.Contributor
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorId
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorRepository
-import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*

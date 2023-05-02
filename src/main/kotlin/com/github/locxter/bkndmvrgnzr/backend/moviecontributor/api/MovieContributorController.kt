@@ -10,7 +10,6 @@ import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContribut
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRole
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleId
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleRepository
-import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
