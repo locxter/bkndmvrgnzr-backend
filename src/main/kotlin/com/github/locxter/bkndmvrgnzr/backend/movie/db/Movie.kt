@@ -19,21 +19,21 @@ data class Movie(
     val ageRestriction: Int = 0,
     @ManyToMany
     @JoinTable(
-        name = "movie_genre",
+        name = "movie_x_genre",
         joinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")],
         inverseJoinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")]
     )
     val genres: List<Genre> = ArrayList(),
     @ManyToMany
     @JoinTable(
-        name = "movie_movie_contributor",
+        name = "movie_x_movie_contributor",
         joinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")],
         inverseJoinColumns = [JoinColumn(name = "movie_contributor_id", referencedColumnName = "id")]
     )
     val movieContributors: List<MovieContributor> = ArrayList(),
     @ManyToMany
     @JoinTable(
-        name = "user_movie",
+        name = "user_x_movie",
         joinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")],
         inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
     )

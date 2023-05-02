@@ -20,7 +20,7 @@ data class MovieContributor(
     val movieRole: MovieRole,
     @ManyToMany
     @JoinTable(
-        name = "movie_movie_contributor",
+        name = "movie_x_movie_contributor",
         joinColumns = [JoinColumn(name = "movie_contributor_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")]
     )

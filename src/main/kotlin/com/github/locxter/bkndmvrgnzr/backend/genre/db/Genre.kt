@@ -14,14 +14,14 @@ data class Genre(
     val name: String = "",
     @ManyToMany
     @JoinTable(
-        name = "book_genre",
+        name = "book_x_genre",
         joinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")]
     )
     val books: List<Book> = ArrayList(),
     @ManyToMany
     @JoinTable(
-        name = "movie_genre",
+        name = "movie_x_genre",
         joinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")]
     )

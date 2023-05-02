@@ -20,7 +20,7 @@ data class BookContributor(
     val bookRole: BookRole = BookRole(),
     @ManyToMany
     @JoinTable(
-        name = "book_book_contributor",
+        name = "book_x_book_contributor",
         joinColumns = [JoinColumn(name = "book_contributor_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")]
     )

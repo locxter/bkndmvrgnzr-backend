@@ -23,21 +23,21 @@ data class Book(
     val publishingHouse: PublishingHouse = PublishingHouse(),
     @ManyToMany
     @JoinTable(
-        name = "book_genre",
+        name = "book_x_genre",
         joinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")],
         inverseJoinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")]
     )
     val genres: List<Genre> = ArrayList(),
     @ManyToMany
     @JoinTable(
-        name = "book_book_contributor",
+        name = "book_x_book_contributor",
         joinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")],
         inverseJoinColumns = [JoinColumn(name = "book_contributor_id", referencedColumnName = "id")]
     )
     val bookContributors: List<BookContributor> = ArrayList(),
     @ManyToMany
     @JoinTable(
-        name = "user_book",
+        name = "user_x_book",
         joinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")],
         inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
     )

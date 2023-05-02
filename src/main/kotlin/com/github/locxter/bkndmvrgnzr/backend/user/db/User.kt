@@ -19,21 +19,21 @@ data class User(
     val lastName: String = "",
     @ManyToMany
     @JoinTable(
-        name = "user_role",
+        name = "user_x_role",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
     )
     val roles: List<Role> = ArrayList(),
     @ManyToMany
     @JoinTable(
-        name = "user_book",
+        name = "user_x_book",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")]
     )
     val books: List<Book> = ArrayList(),
     @ManyToMany
     @JoinTable(
-        name = "user_movie",
+        name = "user_x_movie",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")]
     )

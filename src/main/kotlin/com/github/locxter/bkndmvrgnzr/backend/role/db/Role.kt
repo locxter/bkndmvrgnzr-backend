@@ -14,7 +14,7 @@ data class Role(
     val type: ERole = ERole.ROLE_USER,
     @ManyToMany
     @JoinTable(
-        name = "user_role",
+        name = "user_x_role",
         joinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
     )
