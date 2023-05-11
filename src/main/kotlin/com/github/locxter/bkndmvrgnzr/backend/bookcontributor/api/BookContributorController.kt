@@ -9,6 +9,7 @@ import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRoleRepository
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.Contributor
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorId
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -128,9 +129,13 @@ class BookContributorController(
         while (iterator.hasNext()) {
             val bookContributor = iterator.next()
             var containsQuery = false
-            if (bookContributor.bookRole.name.contains(query, true) ||
-                bookContributor.contributor.firstName.contains(query, true) ||
-                bookContributor.contributor.lastName.contains(query, true)
+            if (FuzzySearch.weightedRatio(bookContributor.contributor.firstName, query) >= 90 ||
+                FuzzySearch.weightedRatio(bookContributor.contributor.lastName, query) >= 90 ||
+                FuzzySearch.weightedRatio(
+                    bookContributor.contributor.firstName + ' ' + bookContributor.contributor.lastName,
+                    query
+                ) >= 90 ||
+                FuzzySearch.weightedRatio(bookContributor.bookRole.name, query) >= 90
             ) {
                 containsQuery = true
             }

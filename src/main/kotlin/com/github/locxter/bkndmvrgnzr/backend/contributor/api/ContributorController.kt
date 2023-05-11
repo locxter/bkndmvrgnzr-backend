@@ -3,6 +3,7 @@ package com.github.locxter.bkndmvrgnzr.backend.contributor.api
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.Contributor
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorId
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -87,20 +88,22 @@ class ContributorController(private val contributorRepository: ContributorReposi
         while (iterator.hasNext()) {
             val contributor = iterator.next()
             var containsQuery = false
-            if (contributor.firstName.contains(query, true) || contributor.lastName.contains(query, true) ||
+            if (FuzzySearch.weightedRatio(contributor.firstName, query) >= 90 ||
+                FuzzySearch.weightedRatio(contributor.lastName, query) >= 90 ||
+                FuzzySearch.weightedRatio(contributor.firstName + ' ' + contributor.lastName, query) >= 90 ||
                 contributor.birthYear == query.toIntOrNull() || contributor.birthMonth == query.toIntOrNull() ||
                 contributor.birthDay == query.toIntOrNull()
             ) {
                 containsQuery = true
             } else {
                 for (bookContributor in contributor.bookContributors) {
-                    if (bookContributor.bookRole.name.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(bookContributor.bookRole.name, query) >= 90) {
                         containsQuery = true
                         break
                     }
                 }
                 for (movieContributor in contributor.movieContributors) {
-                    if (movieContributor.movieRole.name.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(movieContributor.movieRole.name, query) >= 90) {
                         containsQuery = true
                         break
                     }

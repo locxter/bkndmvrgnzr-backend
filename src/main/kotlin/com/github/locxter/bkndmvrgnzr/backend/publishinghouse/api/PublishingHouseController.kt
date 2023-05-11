@@ -3,6 +3,7 @@ package com.github.locxter.bkndmvrgnzr.backend.publishinghouse.api
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouse
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouseId
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouseRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -76,13 +77,16 @@ class PublishingHouseController(private val publishingHouseRepository: Publishin
         while (iterator.hasNext()) {
             val publishingHouse = iterator.next()
             var containsQuery = false
-            if (publishingHouse.name.contains(query, true) || publishingHouse.city.contains(query, true) ||
-                publishingHouse.country.contains(query, true)
+            if (FuzzySearch.weightedRatio(publishingHouse.name, query) >= 90 ||
+                FuzzySearch.weightedRatio(publishingHouse.city, query) >= 90 ||
+                FuzzySearch.weightedRatio(publishingHouse.country, query) >= 90
             ) {
                 containsQuery = true
             } else {
                 for (book in publishingHouse.books) {
-                    if (book.title.contains(query, true) || book.subtitle.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(book.title, query) >= 90 ||
+                        FuzzySearch.weightedRatio(book.subtitle, query) >= 90
+                    ) {
                         containsQuery = true
                         break
                     }

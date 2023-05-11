@@ -3,6 +3,7 @@ package com.github.locxter.bkndmvrgnzr.backend.genre.api
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.Genre
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.GenreId
 import com.github.locxter.bkndmvrgnzr.backend.genre.db.GenreRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -78,17 +79,19 @@ class GenreController(private val genreRepository: GenreRepository) {
         while (iterator.hasNext()) {
             val genre = iterator.next()
             var containsQuery = false
-            if (genre.name.contains(query, true)) {
+            if (FuzzySearch.weightedRatio(genre.name, query) >= 90) {
                 containsQuery = true
             } else {
                 for (book in genre.books) {
-                    if (book.title.contains(query, true) || book.subtitle.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(book.title, query) >= 90 ||
+                        FuzzySearch.weightedRatio(book.subtitle, query) >= 90
+                    ) {
                         containsQuery = true
                         break
                     }
                 }
                 for (movie in genre.movies) {
-                    if (movie.title.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(movie.title, query) >= 90) {
                         containsQuery = true
                         break
                     }

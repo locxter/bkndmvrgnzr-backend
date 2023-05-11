@@ -12,6 +12,7 @@ import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContribut
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributorId
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributorRepository
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
@@ -184,22 +185,27 @@ class MovieController(
         while (iterator.hasNext()) {
             val movie = iterator.next()
             var containsQuery = false
-            if (movie.title.contains(query, true) || movie.description.contains(query, true) ||
+            if (FuzzySearch.weightedRatio(movie.title, query) >= 90 ||
+                FuzzySearch.weightedRatio(movie.description, query) >= 90 ||
                 movie.year == query.toIntOrNull() || movie.playTime == query.toIntOrNull() ||
                 movie.ageRestriction == query.toIntOrNull()
             ) {
                 containsQuery = true
             } else {
                 for (genre in movie.genres) {
-                    if (genre.name.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(genre.name, query) >= 90) {
                         containsQuery = true
                         break
                     }
                 }
                 for (movieContributor in movie.movieContributors) {
-                    if (movieContributor.contributor.firstName.contains(query, true) ||
-                        movieContributor.contributor.lastName.contains(query, true) ||
-                        movieContributor.movieRole.name.contains(query, true)
+                    if (FuzzySearch.weightedRatio(movieContributor.contributor.firstName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(movieContributor.contributor.lastName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(
+                            movieContributor.contributor.firstName + ' ' + movieContributor.contributor.lastName,
+                            query
+                        ) >= 90 ||
+                        FuzzySearch.weightedRatio(movieContributor.movieRole.name, query) >= 90
                     ) {
                         containsQuery = true
                         break
@@ -362,22 +368,27 @@ class MovieController(
         while (iterator.hasNext()) {
             val movie = iterator.next()
             var containsQuery = false
-            if (movie.title.contains(query, true) || movie.description.contains(query, true) ||
+            if (FuzzySearch.weightedRatio(movie.title, query) >= 90 ||
+                FuzzySearch.weightedRatio(movie.description, query) >= 90 ||
                 movie.year == query.toIntOrNull() || movie.playTime == query.toIntOrNull() ||
                 movie.ageRestriction == query.toIntOrNull()
             ) {
                 containsQuery = true
             } else {
                 for (genre in movie.genres) {
-                    if (genre.name.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(genre.name, query) >= 90) {
                         containsQuery = true
                         break
                     }
                 }
                 for (movieContributor in movie.movieContributors) {
-                    if (movieContributor.contributor.firstName.contains(query, true) ||
-                        movieContributor.contributor.lastName.contains(query, true) ||
-                        movieContributor.movieRole.name.contains(query, true)
+                    if (FuzzySearch.weightedRatio(movieContributor.contributor.firstName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(movieContributor.contributor.lastName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(
+                            movieContributor.contributor.firstName + ' ' + movieContributor.contributor.lastName,
+                            query
+                        ) >= 90 ||
+                        FuzzySearch.weightedRatio(movieContributor.movieRole.name, query) >= 90
                     ) {
                         containsQuery = true
                         break

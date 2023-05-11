@@ -6,6 +6,7 @@ import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRoleId
 import com.github.locxter.bkndmvrgnzr.backend.bookrole.db.BookRoleRepository
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorId
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
@@ -109,12 +110,16 @@ class BookRoleController(
         while (iterator.hasNext()) {
             val bookRole = iterator.next()
             var containsQuery = false
-            if (bookRole.name.contains(query, true)) {
+            if (FuzzySearch.weightedRatio(bookRole.name, query) >= 90) {
                 containsQuery = true
             } else {
                 for (bookContributor in bookRole.bookContributors) {
-                    if (bookContributor.contributor.firstName.contains(query, true) ||
-                        bookContributor.contributor.lastName.contains(query, true)
+                    if (FuzzySearch.weightedRatio(bookContributor.contributor.firstName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(bookContributor.contributor.lastName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(
+                            bookContributor.contributor.firstName + ' ' + bookContributor.contributor.lastName,
+                            query
+                        ) >= 90
                     ) {
                         containsQuery = true
                         break

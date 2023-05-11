@@ -6,6 +6,7 @@ import com.github.locxter.bkndmvrgnzr.backend.user.db.Password
 import com.github.locxter.bkndmvrgnzr.backend.user.db.User
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserId
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
@@ -207,20 +208,23 @@ class UserController(
         while (iterator.hasNext()) {
             val user = iterator.next()
             var containsQuery = false
-            if (user.username.contains(query, true) || user.firstName.contains(query, true) ||
-                user.lastName.contains(query, true)
+            if (FuzzySearch.weightedRatio(user.username, query) >= 90 ||
+                FuzzySearch.weightedRatio(user.firstName, query) >= 90 ||
+                FuzzySearch.weightedRatio(user.lastName, query) >= 90 ||
+                FuzzySearch.weightedRatio(user.firstName + ' ' + user.lastName, query) >= 90
             ) {
                 containsQuery = true
             } else {
                 for (book in user.books) {
-                    if (book.title.contains(query, true) || book.subtitle.contains(query, true)
+                    if (FuzzySearch.weightedRatio(book.title, query) >= 90 ||
+                        FuzzySearch.weightedRatio(book.subtitle, query) >= 90
                     ) {
                         containsQuery = true
                         break
                     }
                 }
                 for (movie in user.movies) {
-                    if (movie.title.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(movie.title, query) >= 90) {
                         containsQuery = true
                         break
                     }

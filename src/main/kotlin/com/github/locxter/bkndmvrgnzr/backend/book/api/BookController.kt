@@ -15,6 +15,7 @@ import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouse
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouseId
 import com.github.locxter.bkndmvrgnzr.backend.publishinghouse.db.PublishingHouseRepository
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
@@ -218,22 +219,27 @@ class BookController(
         while (iterator.hasNext()) {
             val book = iterator.next()
             var containsQuery = false
-            if (book.title.contains(query, true) || book.subtitle.contains(query, true) ||
-                book.description.contains(query, true) || book.year == query.toIntOrNull() ||
-                book.pages == query.toIntOrNull() || book.publishingHouse.name.contains(query, true)
+            if (FuzzySearch.weightedRatio(book.title, query) >= 90 ||
+                FuzzySearch.weightedRatio(book.subtitle, query) >= 90 ||
+                FuzzySearch.weightedRatio(book.description, query) >= 90 || book.year == query.toIntOrNull() ||
+                book.pages == query.toIntOrNull() || FuzzySearch.weightedRatio(book.publishingHouse.name, query) >= 90
             ) {
                 containsQuery = true
             } else {
                 for (genre in book.genres) {
-                    if (genre.name.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(genre.name, query) >= 90) {
                         containsQuery = true
                         break
                     }
                 }
                 for (bookContributor in book.bookContributors) {
-                    if (bookContributor.contributor.firstName.contains(query, true) ||
-                        bookContributor.contributor.lastName.contains(query, true) ||
-                        bookContributor.bookRole.name.contains(query, true)
+                    if (FuzzySearch.weightedRatio(bookContributor.contributor.firstName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(bookContributor.contributor.lastName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(
+                            bookContributor.contributor.firstName + ' ' + bookContributor.contributor.lastName,
+                            query
+                        ) >= 90 ||
+                        FuzzySearch.weightedRatio(bookContributor.bookRole.name, query) >= 90
                     ) {
                         containsQuery = true
                         break
@@ -430,22 +436,27 @@ class BookController(
         while (iterator.hasNext()) {
             var containsQuery = false
             val book = iterator.next()
-            if (book.title.contains(query, true) || book.subtitle.contains(query, true) ||
-                book.description.contains(query, true) || book.year == query.toIntOrNull() ||
-                book.pages == query.toIntOrNull() || book.publishingHouse.name.contains(query, true)
+            if (FuzzySearch.weightedRatio(book.title, query) >= 90 ||
+                FuzzySearch.weightedRatio(book.subtitle, query) >= 90 ||
+                FuzzySearch.weightedRatio(book.description, query) >= 90 || book.year == query.toIntOrNull() ||
+                book.pages == query.toIntOrNull() || FuzzySearch.weightedRatio(book.publishingHouse.name, query) >= 90
             ) {
                 containsQuery = true
             } else {
                 for (genre in book.genres) {
-                    if (genre.name.contains(query, true)) {
+                    if (FuzzySearch.weightedRatio(genre.name, query) >= 90) {
                         containsQuery = true
                         break
                     }
                 }
                 for (bookContributor in book.bookContributors) {
-                    if (bookContributor.contributor.firstName.contains(query, true) ||
-                        bookContributor.contributor.lastName.contains(query, true) ||
-                        bookContributor.bookRole.name.contains(query, true)
+                    if (FuzzySearch.weightedRatio(bookContributor.contributor.firstName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(bookContributor.contributor.lastName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(
+                            bookContributor.contributor.firstName + ' ' + bookContributor.contributor.lastName,
+                            query
+                        ) >= 90 ||
+                        FuzzySearch.weightedRatio(bookContributor.bookRole.name, query) >= 90
                     ) {
                         containsQuery = true
                         break

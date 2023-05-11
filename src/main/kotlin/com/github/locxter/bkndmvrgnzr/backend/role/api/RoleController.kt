@@ -5,6 +5,7 @@ import com.github.locxter.bkndmvrgnzr.backend.role.db.RoleId
 import com.github.locxter.bkndmvrgnzr.backend.role.db.RoleRepository
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserId
 import com.github.locxter.bkndmvrgnzr.backend.user.db.UserRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.core.Authentication
@@ -37,12 +38,14 @@ class RoleController(private val roleRepository: RoleRepository, private val use
         while (iterator.hasNext()) {
             val role = iterator.next()
             var containsQuery = false
-            if (role.type.name.contains(query, true)) {
+            if (FuzzySearch.weightedRatio(role.type.name, query) >= 90) {
                 containsQuery = true
             } else {
                 for (user in role.users) {
-                    if (user.username.contains(query, true) || user.firstName.contains(query, true) ||
-                        user.lastName.contains(query, true)
+                    if (FuzzySearch.weightedRatio(user.username, query) >= 90 ||
+                        FuzzySearch.weightedRatio(user.firstName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(user.lastName, query) >= 90 ||
+                        FuzzySearch.weightedRatio(user.firstName + ' ' + user.lastName, query) >= 90
                     ) {
                         containsQuery = true
                         break

@@ -9,6 +9,7 @@ import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContribut
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRole
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleId
 import com.github.locxter.bkndmvrgnzr.backend.movierole.db.MovieRoleRepository
+import me.xdrop.fuzzywuzzy.FuzzySearch
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
@@ -131,9 +132,13 @@ class MovieContributorController(
         while (iterator.hasNext()) {
             val movieContributor = iterator.next()
             var containsQuery = false
-            if (movieContributor.movieRole.name.contains(query, true) ||
-                movieContributor.contributor.firstName.contains(query, true) ||
-                movieContributor.contributor.lastName.contains(query, true)
+            if (FuzzySearch.weightedRatio(movieContributor.contributor.firstName, query) >= 90 ||
+                FuzzySearch.weightedRatio(movieContributor.contributor.lastName, query) >= 90 ||
+                FuzzySearch.weightedRatio(
+                    movieContributor.contributor.firstName + ' ' + movieContributor.contributor.lastName,
+                    query
+                ) >= 90 ||
+                FuzzySearch.weightedRatio(movieContributor.movieRole.name, query) >= 90
             ) {
                 containsQuery = true
             }
