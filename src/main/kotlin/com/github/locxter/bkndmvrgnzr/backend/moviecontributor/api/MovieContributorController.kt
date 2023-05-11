@@ -3,7 +3,6 @@ package com.github.locxter.bkndmvrgnzr.backend.moviecontributor.api
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.Contributor
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorId
 import com.github.locxter.bkndmvrgnzr.backend.contributor.db.ContributorRepository
-import com.github.locxter.bkndmvrgnzr.backend.movie.db.Movie
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributor
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributorId
 import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.db.MovieContributorRepository
@@ -25,7 +24,7 @@ class MovieContributorController(
     @GetMapping
     @PreAuthorize("hasRole('USER')")
     fun getAllMovieContributors(): List<MovieContributorResponseDto> {
-        val movieContributors = movieContributorRepository.findAll(Movie.getSort())
+        val movieContributors = movieContributorRepository.findAll(MovieContributor.getSort())
         return movieContributors.map { it.toDto() }
     }
 
@@ -110,7 +109,7 @@ class MovieContributorController(
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val movieContributors =
-            movieContributorRepository.findByContributorId(contributor.id, Movie.getSort())
+            movieContributorRepository.findByContributorId(contributor.id, MovieContributor.getSort())
         return movieContributors.map { it.toDto() }
     }
 
@@ -120,14 +119,14 @@ class MovieContributorController(
         val movieRole = movieRoleRepository.findById(MovieRoleId(movieRoleId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested movie role not found")
         val movieContributors =
-            movieContributorRepository.findByMovieRoleId(movieRole.id, Movie.getSort())
+            movieContributorRepository.findByMovieRoleId(movieRole.id, MovieContributor.getSort())
         return movieContributors.map { it.toDto() }
     }
 
     @GetMapping("/search/{query}")
     @PreAuthorize("hasRole('USER')")
     fun getAllMovieContributorsOfSearchQuery(@PathVariable(name = "query") query: String): List<MovieContributorResponseDto> {
-        val movieContributors = movieContributorRepository.findAll(Movie.getSort())
+        val movieContributors = movieContributorRepository.findAll(MovieContributor.getSort())
         val iterator = movieContributors.iterator()
         while (iterator.hasNext()) {
             val movieContributor = iterator.next()
