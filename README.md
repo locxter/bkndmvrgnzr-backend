@@ -17,9 +17,10 @@ I generally try to minimize dependencies, but I'm a one man crew and can therefo
 distributions as I'm running one myself. Anyway, you need to have the following packages installed for everything to
 work properly:
 
-- JDK for running the bytecode. Install it with `sudo apt install openjdk-17-jdk`.
-- Kotlin for developing the program. Install it with `sudo apt install kotlin`.
-- Gradle for building the whole thing. Install it using [this PPA](https://launchpad.net/~cwchien/+archive/ubuntu/gradle) as the default package is outdated.
+- SDKMAN! for managing all the JVM dependencies. Install it via the [installation guide](https://sdkman.io/install).
+- JDK for running the bytecode. Install it with `sdk install java`.
+- Kotlin for developing the program. Install it with `sdk install kotlin`.
+- Gradle for building the whole thing. Install it with `sdk install gradle`.
 - MariaDB as a database for storage. Install it with `sudo apt install mariadb-server`.
 
 ## How to use it
