@@ -10,6 +10,6 @@ data class MovieResponseDto(
     val year: Int = 0,
     val playTime: Int = 0,
     val ageRestriction: Int = 0,
-    val genres: List<GenreResponseBriefDto> = mutableListOf(),
-    val movieContributors: List<MovieContributorResponseBriefDto> = mutableListOf()
+    val genres: List<GenreResponseBriefDto> = listOf(),
+    val movieContributors: List<MovieContributorResponseBriefDto> = listOf()
 )

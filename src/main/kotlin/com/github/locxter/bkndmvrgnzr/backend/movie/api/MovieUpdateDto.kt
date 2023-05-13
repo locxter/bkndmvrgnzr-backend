@@ -6,6 +6,6 @@ data class MovieUpdateDto(
     val year: Int = 0,
     val playTime: Int = 0,
     val ageRestriction: Int = -1,
-    val genreIds: List<String> = mutableListOf(),
-    val movieContributorIds: List<String> = mutableListOf(),
+    val genreIds: List<String> = listOf(),
+    val movieContributorIds: List<String> = listOf(),
 )

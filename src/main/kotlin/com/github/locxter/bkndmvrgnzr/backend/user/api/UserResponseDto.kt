@@ -9,7 +9,7 @@ data class UserResponseDto(
     val username: String = "",
     val firstName: String = "",
     val lastName: String = "",
-    val roles: List<RoleResponseDto> = mutableListOf(),
-    val books: List<BookResponseBriefDto> = mutableListOf(),
-    val movies: List<MovieResponseBriefDto> = mutableListOf()
+    val roles: List<RoleResponseDto> = listOf(),
+    val books: List<BookResponseBriefDto> = listOf(),
+    val movies: List<MovieResponseBriefDto> = listOf()
 )

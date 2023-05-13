@@ -24,21 +24,21 @@ data class User(
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")]
     )
-    val roles: List<Role> = mutableListOf(),
+    val roles: List<Role> = listOf(),
     @ManyToMany
     @JoinTable(
         name = "user_x_book",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")]
     )
-    val books: List<Book> = mutableListOf(),
+    val books: List<Book> = listOf(),
     @ManyToMany
     @JoinTable(
         name = "user_x_movie",
         joinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")]
     )
-    val movies: List<Movie> = mutableListOf()
+    val movies: List<Movie> = listOf()
 ) {
     fun toDto(): UserResponseDto = UserResponseDto(
         id.value,

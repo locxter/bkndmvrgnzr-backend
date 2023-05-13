@@ -5,5 +5,5 @@ import com.github.locxter.bkndmvrgnzr.backend.bookcontributor.api.BookContributo
 data class BookRoleResponseDto(
     val id: String = "",
     val name: String = "",
-    val bookContributors: List<BookContributorResponseBriefDto> = mutableListOf()
+    val bookContributors: List<BookContributorResponseBriefDto> = listOf()
 )

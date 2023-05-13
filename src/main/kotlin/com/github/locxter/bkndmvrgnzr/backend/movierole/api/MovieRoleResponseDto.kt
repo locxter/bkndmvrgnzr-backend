@@ -5,5 +5,5 @@ import com.github.locxter.bkndmvrgnzr.backend.moviecontributor.api.MovieContribu
 data class MovieRoleResponseDto(
     val id: String = "",
     val name: String = "",
-    val movieContributors: List<MovieContributorResponseBriefDto> = mutableListOf()
+    val movieContributors: List<MovieContributorResponseBriefDto> = listOf()
 )

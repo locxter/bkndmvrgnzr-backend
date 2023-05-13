@@ -6,9 +6,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 @JsonIgnoreProperties(ignoreUnknown = true)
 data class MovieImportSearchResponseDto(
     @JsonAlias("status")
-    var httpStatus: Int = 200,
+    val httpStatus: Int = 200,
     @JsonAlias("message")
-    var httpMessage: String = "OK",
+    val httpMessage: String = "OK",
     @JsonAlias("data")
-    var movies: List<MovieImportResponseBriefDto> = mutableListOf()
+    val movies: List<MovieImportResponseBriefDto> = listOf()
 )

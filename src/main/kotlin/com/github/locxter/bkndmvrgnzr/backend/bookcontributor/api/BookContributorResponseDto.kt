@@ -8,5 +8,5 @@ data class BookContributorResponseDto(
     val id: String = "",
     val contributor: ContributorResponseBriefDto = ContributorResponseBriefDto(),
     val bookRole: BookRoleResponseBriefDto = BookRoleResponseBriefDto(),
-    val books: List<BookResponseBriefDto> = mutableListOf(),
+    val books: List<BookResponseBriefDto> = listOf(),
 )

@@ -28,21 +28,21 @@ data class Book(
         joinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")],
         inverseJoinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")]
     )
-    val genres: List<Genre> = mutableListOf(),
+    val genres: List<Genre> = listOf(),
     @ManyToMany
     @JoinTable(
         name = "book_x_book_contributor",
         joinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")],
         inverseJoinColumns = [JoinColumn(name = "book_contributor_id", referencedColumnName = "id")]
     )
-    val bookContributors: List<BookContributor> = mutableListOf(),
+    val bookContributors: List<BookContributor> = listOf(),
     @ManyToMany
     @JoinTable(
         name = "user_x_book",
         joinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")],
         inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
     )
-    val users: List<User> = mutableListOf(),
+    val users: List<User> = listOf(),
 ) {
     fun toDto(): BookResponseDto = BookResponseDto(
         isbn.value,

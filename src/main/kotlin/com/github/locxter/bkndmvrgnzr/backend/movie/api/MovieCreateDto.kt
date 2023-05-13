@@ -7,6 +7,6 @@ data class MovieCreateDto(
     val year: Int = 0,
     val playTime: Int = 0,
     val ageRestriction: Int = 0,
-    val genreIds: List<String> = mutableListOf(),
-    val movieContributorIds: List<String> = mutableListOf(),
+    val genreIds: List<String> = listOf(),
+    val movieContributorIds: List<String> = listOf(),
 )
