@@ -59,7 +59,7 @@ class DataLoader(
             User(
                 username = "user",
                 password = Password("password"),
-                roles = arrayListOf(
+                roles = listOf(
                     roleRepository.findByType(ERole.ROLE_USER) ?: throw Exception("ROlE_USER not found")
                 )
             )
@@ -68,7 +68,7 @@ class DataLoader(
             User(
                 username = "editor",
                 password = Password("password"),
-                roles = arrayListOf(
+                roles = listOf(
                     roleRepository.findByType(ERole.ROLE_USER) ?: throw Exception("ROlE_USER not found"),
                     roleRepository.findByType(ERole.ROLE_EDITOR) ?: throw Exception("ROLE_EDITOR not found")
                 )

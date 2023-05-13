@@ -24,21 +24,21 @@ data class Movie(
         joinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")],
         inverseJoinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")]
     )
-    val genres: List<Genre> = ArrayList(),
+    val genres: List<Genre> = mutableListOf(),
     @ManyToMany
     @JoinTable(
         name = "movie_x_movie_contributor",
         joinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")],
         inverseJoinColumns = [JoinColumn(name = "movie_contributor_id", referencedColumnName = "id")]
     )
-    val movieContributors: List<MovieContributor> = ArrayList(),
+    val movieContributors: List<MovieContributor> = mutableListOf(),
     @ManyToMany
     @JoinTable(
         name = "user_x_movie",
         joinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")],
         inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
     )
-    val users: List<User> = ArrayList(),
+    val users: List<User> = mutableListOf(),
 ) {
     fun toDto(): MovieResponseDto = MovieResponseDto(
         isan.value,

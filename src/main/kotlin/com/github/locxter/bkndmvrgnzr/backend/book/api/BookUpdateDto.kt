@@ -7,6 +7,6 @@ data class BookUpdateDto(
     val year: Int = 0,
     val pages: Int = 0,
     val publishingHouseId: String = "",
-    val genreIds: List<String> = ArrayList(),
-    val bookContributorIds: List<String> = ArrayList(),
+    val genreIds: List<String> = mutableListOf(),
+    val bookContributorIds: List<String> = mutableListOf(),
 )

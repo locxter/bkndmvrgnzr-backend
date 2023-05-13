@@ -7,5 +7,5 @@ data class PublishingHouseResponseDto(
     val name: String = "",
     val country: String = "",
     val city: String = "",
-    val books: List<BookResponseBriefDto> = ArrayList()
+    val books: List<BookResponseBriefDto> = mutableListOf()
 )

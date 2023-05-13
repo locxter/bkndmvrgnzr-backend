@@ -19,14 +19,14 @@ data class Genre(
         joinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")]
     )
-    val books: List<Book> = ArrayList(),
+    val books: List<Book> = mutableListOf(),
     @ManyToMany
     @JoinTable(
         name = "movie_x_genre",
         joinColumns = [JoinColumn(name = "genre_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")]
     )
-    val movies: List<Movie> = ArrayList()
+    val movies: List<Movie> = mutableListOf()
 ) {
     fun toDto(): GenreResponseDto = GenreResponseDto(
         id.value,

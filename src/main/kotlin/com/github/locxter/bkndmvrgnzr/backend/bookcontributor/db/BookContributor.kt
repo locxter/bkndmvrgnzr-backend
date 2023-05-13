@@ -25,7 +25,7 @@ data class BookContributor(
         joinColumns = [JoinColumn(name = "book_contributor_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isbn", referencedColumnName = "isbn")]
     )
-    val books: List<Book> = ArrayList(),
+    val books: List<Book> = mutableListOf(),
 ) {
     fun toDto(): BookContributorResponseDto = BookContributorResponseDto(
         id.value,

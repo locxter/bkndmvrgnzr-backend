@@ -60,14 +60,14 @@ class BookController(
                 ?: throw ResponseStatusException(
                     HttpStatus.NOT_FOUND, "Requested publishing house not found"
                 )
-        val genres: ArrayList<Genre> = ArrayList()
+        val genres = mutableListOf<Genre>()
         for (genreId in bookCreateDto.genreIds) {
             val genre = genreRepository.findById(GenreId(genreId)).orElse(null) ?: throw ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Requested genre not found"
             )
             genres.add(genre)
         }
-        val bookContributors: ArrayList<BookContributor> = ArrayList()
+        val bookContributors = mutableListOf<BookContributor>()
         for (bookContributorId in bookCreateDto.bookContributorIds) {
             val bookContributor =
                 bookContributorRepository.findById(BookContributorId(bookContributorId)).orElse(null)
@@ -122,14 +122,14 @@ class BookController(
                         HttpStatus.NOT_FOUND, "Requested genre not found"
                     )
         }
-        val genres: ArrayList<Genre> = ArrayList()
+        val genres = mutableListOf<Genre>()
         for (genreId in bookUpdateDto.genreIds) {
             val genre = genreRepository.findById(GenreId(genreId)).orElse(null) ?: throw ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Requested genre not found"
             )
             genres.add(genre)
         }
-        val bookContributors: ArrayList<BookContributor> = ArrayList()
+        val bookContributors = mutableListOf<BookContributor>()
         for (bookContributorId in bookUpdateDto.bookContributorIds) {
             val bookContributor =
                 bookContributorRepository.findById(BookContributorId(bookContributorId)).orElse(null)
@@ -203,7 +203,7 @@ class BookController(
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val bookContributors = bookContributorRepository.findByContributorId(contributor.id)
-        val books: ArrayList<Book> = ArrayList()
+        val books = mutableListOf<Book>()
         for (bookContributor in bookContributors) {
             books.addAll(bookRepository.findByBookContributorsId(bookContributor.id))
         }

@@ -8,5 +8,5 @@ data class MovieContributorResponseDto(
     val id: String = "",
     val contributor: ContributorResponseBriefDto = ContributorResponseBriefDto(),
     val movieRole: MovieRoleResponseBriefDto = MovieRoleResponseBriefDto(),
-    val movies: List<MovieResponseBriefDto> = ArrayList()
+    val movies: List<MovieResponseBriefDto> = mutableListOf()
 )

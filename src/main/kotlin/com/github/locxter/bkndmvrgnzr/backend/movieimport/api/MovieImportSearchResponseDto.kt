@@ -10,5 +10,5 @@ data class MovieImportSearchResponseDto(
     @JsonAlias("message")
     var httpMessage: String = "OK",
     @JsonAlias("data")
-    var movies: List<MovieImportResponseBriefDto> = ArrayList()
+    var movies: List<MovieImportResponseBriefDto> = mutableListOf()
 )

@@ -15,7 +15,7 @@ data class PublishingHouse(
     val country: String = "",
     val city: String = "",
     @OneToMany(mappedBy = "publishingHouse")
-    val books: List<Book> = ArrayList()
+    val books: List<Book> = mutableListOf()
 ) {
     fun toDto(): PublishingHouseResponseDto = PublishingHouseResponseDto(
         id.value,

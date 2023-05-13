@@ -12,6 +12,6 @@ data class BookResponseDto(
     val year: Int = 0,
     val pages: Int = 0,
     val publishingHouse: PublishingHouseResponseBriefDto = PublishingHouseResponseBriefDto(),
-    val genres: List<GenreResponseBriefDto> = ArrayList(),
-    val bookContributors: List<BookContributorResponseBriefDto> = ArrayList(),
+    val genres: List<GenreResponseBriefDto> = mutableListOf(),
+    val bookContributors: List<BookContributorResponseBriefDto> = mutableListOf(),
 )

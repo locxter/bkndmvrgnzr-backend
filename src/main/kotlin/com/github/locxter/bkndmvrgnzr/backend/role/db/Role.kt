@@ -19,7 +19,7 @@ data class Role(
         joinColumns = [JoinColumn(name = "role_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")]
     )
-    val users: List<User> = ArrayList()
+    val users: List<User> = mutableListOf()
 ) {
     fun toDto(): RoleResponseDto = RoleResponseDto(
         id.value,

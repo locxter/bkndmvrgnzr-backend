@@ -13,7 +13,7 @@ data class BookRole(
     val id: BookRoleId = BookRoleId(),
     val name: String = "",
     @OneToMany(mappedBy = "bookRole")
-    val bookContributors: List<BookContributor> = ArrayList()
+    val bookContributors: List<BookContributor> = mutableListOf()
 ) {
     fun toDto(): BookRoleResponseDto = BookRoleResponseDto(
         id.value,

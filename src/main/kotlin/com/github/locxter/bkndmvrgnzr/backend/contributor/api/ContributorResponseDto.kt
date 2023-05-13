@@ -10,6 +10,6 @@ data class ContributorResponseDto(
     val birthYear: Int = 0,
     val birthMonth: Int = 0,
     val birthDay: Int = 0,
-    val bookContributors: List<BookContributorResponseBriefDto> = ArrayList(),
-    val movieContributors: List<MovieContributorResponseBriefDto> = ArrayList()
+    val bookContributors: List<BookContributorResponseBriefDto> = mutableListOf(),
+    val movieContributors: List<MovieContributorResponseBriefDto> = mutableListOf()
 )

@@ -13,7 +13,7 @@ data class MovieRole(
     val id: MovieRoleId = MovieRoleId(),
     val name: String = "",
     @OneToMany(mappedBy = "movieRole")
-    val movieContributors: List<MovieContributor> = ArrayList()
+    val movieContributors: List<MovieContributor> = mutableListOf()
 ) {
     fun toDto(): MovieRoleResponseDto = MovieRoleResponseDto(
         id.value,

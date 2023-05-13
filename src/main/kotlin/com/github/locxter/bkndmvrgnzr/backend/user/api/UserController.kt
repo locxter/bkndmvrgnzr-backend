@@ -60,7 +60,7 @@ class UserController(
             password = Password(userCreateDto.password),
             firstName = userCreateDto.firstName,
             lastName = userCreateDto.lastName,
-            roles = arrayListOf(roleRepository.findByType(ERole.ROLE_USER) ?: throw Exception("ROlE_USER not found"))
+            roles = listOf(roleRepository.findByType(ERole.ROLE_USER) ?: throw Exception("ROlE_USER not found"))
         )
         userRepository.save(user)
         return user.toDto()

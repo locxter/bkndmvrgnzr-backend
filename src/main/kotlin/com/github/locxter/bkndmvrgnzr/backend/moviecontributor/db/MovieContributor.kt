@@ -25,7 +25,7 @@ data class MovieContributor(
         joinColumns = [JoinColumn(name = "movie_contributor_id", referencedColumnName = "id")],
         inverseJoinColumns = [JoinColumn(name = "isan", referencedColumnName = "isan")]
     )
-    val movies: List<Movie> = ArrayList(),
+    val movies: List<Movie> = mutableListOf(),
 ) {
     fun toDto(): MovieContributorResponseDto = MovieContributorResponseDto(
         id.value,

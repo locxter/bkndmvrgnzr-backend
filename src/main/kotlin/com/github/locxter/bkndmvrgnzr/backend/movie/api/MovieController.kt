@@ -51,14 +51,14 @@ class MovieController(
         if (movieRepository.existsById(Isan(movieCreateDto.isan))) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sent movie not valid")
         }
-        val genres: ArrayList<Genre> = ArrayList()
+        val genres = mutableListOf<Genre>()
         for (genreId in movieCreateDto.genreIds) {
             val genre = genreRepository.findById(GenreId(genreId)).orElse(null) ?: throw ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Requested genre not found"
             )
             genres.add(genre)
         }
-        val movieContributors: ArrayList<MovieContributor> = ArrayList()
+        val movieContributors = mutableListOf<MovieContributor>()
         for (movieContributorId in movieCreateDto.movieContributorIds) {
             val movieContributor =
                 movieContributorRepository.findById(MovieContributorId(movieContributorId)).orElse(null)
@@ -102,14 +102,14 @@ class MovieController(
         ) {
             throw ResponseStatusException(HttpStatus.BAD_REQUEST, "Sent movie not valid")
         }
-        val genres: ArrayList<Genre> = ArrayList()
+        val genres = mutableListOf<Genre>()
         for (genreId in movieUpdateDto.genreIds) {
             val genre = genreRepository.findById(GenreId(genreId)).orElse(null) ?: throw ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Requested genre not found"
             )
             genres.add(genre)
         }
-        val movieContributors: ArrayList<MovieContributor> = ArrayList()
+        val movieContributors = mutableListOf<MovieContributor>()
         for (movieContributorId in movieUpdateDto.movieContributorIds) {
             val movieContributor =
                 movieContributorRepository.findById(MovieContributorId(movieContributorId)).orElse(null)
@@ -169,7 +169,7 @@ class MovieController(
         val contributor = contributorRepository.findById(ContributorId(contributorId)).orElse(null)
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val movieContributors = movieContributorRepository.findByContributorId(contributor.id)
-        val movies: ArrayList<Movie> = ArrayList()
+        val movies = mutableListOf<Movie>()
         for (movieContributor in movieContributors) {
             movies.addAll(movieRepository.findByMovieContributorsId(movieContributor.id))
         }

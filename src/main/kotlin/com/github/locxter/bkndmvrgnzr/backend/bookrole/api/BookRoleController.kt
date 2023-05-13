@@ -90,7 +90,7 @@ class BookRoleController(
             ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Requested contributor not found")
         val bookContributors =
             bookContributorRepository.findByContributorId(contributor.id, Sort.by(Sort.Direction.ASC, "bookRole.name"))
-        val bookRoles: ArrayList<BookRole> = ArrayList()
+        val bookRoles = mutableListOf<BookRole>()
         for (bookContributor in bookContributors) {
             bookRoles.add(
                 bookRoleRepository.findByBookContributorsId(bookContributor.id) ?: throw ResponseStatusException(

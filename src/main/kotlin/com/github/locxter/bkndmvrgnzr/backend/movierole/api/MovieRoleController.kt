@@ -91,7 +91,7 @@ class MovieRoleController(
             contributor.id,
             Sort.by(Sort.Direction.ASC, "movieRole.name")
         )
-        val movieRoles: ArrayList<MovieRole> = ArrayList()
+        val movieRoles = mutableListOf<MovieRole>()
         for (movieContributor in movieContributors) {
             movieRoles.add(
                 movieRoleRepository.findByMovieContributorsId(movieContributor.id) ?: throw ResponseStatusException(
